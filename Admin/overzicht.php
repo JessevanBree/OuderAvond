@@ -25,20 +25,20 @@ $sqlGeenAfspraak = "SELECT inschrijving.Leerling_ID, leerlingen.Voornaam, leerli
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Overzicht</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <head>
+        <title>Overzicht</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Bootstrap core CSS -->
-    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="Styles/styles.css" rel="stylesheet">
-  </head>
+        <!-- Custom styles for this template -->
+        <link href="Styles/styles.css" rel="stylesheet">
+    </head>
 
   <body class="kleur-effect">
     <nav class="navbar navbar-custom">

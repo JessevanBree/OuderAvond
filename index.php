@@ -8,38 +8,38 @@
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
     <body class="kleur-effect">
-      <nav class="navbar navbar-custom">		
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Ouderavond</a>
-			</div>
-			<?php
-				session_start();
-				if(isset($_SESSION["ingelogt"])){
-					echo "<ul class='nav navbar-nav navbar-right'>";
-						echo "<li class='nav-item '>";
-							echo "<a class='nav-link ' href='Inlog/loguit.php'> loguit</a>";
-						echo "</li>";
-					echo "</ul>";
-					
-					if(isset($_SESSION["Admin"])){
+      	<nav class="navbar navbar-custom">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Ouderavond</a>
+				</div>
+				<?php
+					session_start();
+					if(isset($_SESSION["ingelogt"])){
 						echo "<ul class='nav navbar-nav navbar-right'>";
 							echo "<li class='nav-item '>";
-								echo "<a class='nav-link ' href='Admin/Adminpanel.php'> Admin panel</a>";
+								echo "<a class='nav-link ' href='Inlog/loguit.php'> loguit</a>";
+							echo "</li>";
+						echo "</ul>";
+
+						if(isset($_SESSION["Admin"])){
+							echo "<ul class='nav navbar-nav navbar-right'>";
+								echo "<li class='nav-item '>";
+									echo "<a class='nav-link ' href='Admin/Adminpanel.php'> Admin panel</a>";
+								echo "</li>";
+							echo "</ul>";
+						}
+					}
+					else{
+						echo "<ul class='nav navbar-nav navbar-right'>";
+							echo "<li class='nav-item '>";
+								echo "<a class='nav-link ' href='Inlog/login.php'> login</a>";
 							echo "</li>";
 						echo "</ul>";
 					}
-				}
-				else{
-					echo "<ul class='nav navbar-nav navbar-right'>";
-						echo "<li class='nav-item '>";
-							echo "<a class='nav-link ' href='Inlog/login.php'> login</a>";
-						echo "</li>";
-					echo "</ul>";
-				}
-			?>
-		</div>		
-    </nav>
+				?>
+			</div>
+    	</nav>
         <div class="container">
             <div class="row">      
                 <div class='col col-4'>
@@ -52,10 +52,7 @@
 							<div class='modal-body'>
 								<p class="text-center">
 									Welkom, op deze website kunt u aangeven waarneer u de Ouderavond komt bezoeken.
-									om aantekunnen geven waarneer u komt, moet u eerst inloggen. 
-								<?php
-								//var_dump($_SESSION);
-								?>
+									om aantekunnen geven waarneer u komt, moet u eerst inloggen.
 								</p>
 								<br/>					
 								<a href="inschrijven.php" class='btn btn-block btn-lg btn-style'>
