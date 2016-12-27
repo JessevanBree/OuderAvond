@@ -1,0 +1,36 @@
+.navbar-custom{
+  background-color: #115f5d;
+}
+.navbar-header a{
+  color: #fff;
+}
+.nav li a{
+  color: #fff;
+}
+.nav li a:hover{
+  background-color: #0f5554;
+}
+
+.kleur-effect{
+	 background-color:#F2F2F2;
+}
+
+.bgcolor{
+	background-color:#F2F2F2;
+}
+
+.btn-style{
+	background-color: #115f5d;
+	color: #fff;
+}
+
+.btn-style:hover{
+	color: #fff;
+	background-color:#00aa8e;
+}
+
+.footer{
+	color:#E0E0E0;
+	background-color:#2B2B2B;
+	padding-left:10%;
+}

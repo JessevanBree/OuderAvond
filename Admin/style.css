@@ -1,0 +1,169 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;	
+}
+
+input[type=time]::-webkit-inner-spin-button,
+input[type=time]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;	
+}
+
+/* de styling voor de modal */
+
+.modal{
+	display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 10%; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #8e877d;
+	color:  rgba(0,0,0,0.8);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%;
+}
+
+.navbar-custom{
+  background-color: #115f5d;
+}
+.navbar-active{
+  background-color: #115f5d;
+}
+.navbar-brand{
+  color: white;
+}
+a.navbar-brand:hover{
+  color: #e0e0e0;
+}
+
+.navbar-header a{
+  color: #fff;
+}
+.nav li a{
+  color: #fff;
+}
+.nav li a:hover{
+  background-color: #0f5554;
+  color:grey;
+}
+
+.kleur-effect{
+	background-color:#F2F2F2;
+	/*
+    background: #02e5bf; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+   /* background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjUlIiBzdG9wLWNvbG9yPSIjZjMyZDI3IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iOTklIiBzdG9wLWNvbG9yPSIjZmY2YjQ1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+    background: -moz-linear-gradient(45deg,  #f32d27 5%, #ff6b45 99%); /* FF3.6+ */
+    /*background: -webkit-gradient(linear, left bottom, right top, color-stop(5%,#02e5bf), color-stop(99%,#ff6b45)); /* Chrome,Safari4+ */
+    /*background: -webkit-linear-gradient(45deg,  #02e5bf 5%,#00aa8e 99%); /* Chrome10+,Safari5.1+ */
+    /*background: -o-linear-gradient(45deg,  #f32d27 5%,#ff6b45 99%); /* Opera 11.10+ */
+    /*background: -ms-linear-gradient(45deg,  #f32d27 5%,#ff6b45 99%); /* IE10+ */
+    /*background: linear-gradient(45deg,  #f32d27 5%,#ff6b45 99%); /* W3C */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f32d27', endColorstr='#ff6b45',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+	
+}
+
+.hoofd-div{
+form {
+	padding:50px;
+}
+
+.bgcolor{
+	background-color:#F2F2F2;
+}
+label {
+    color: #000000 !important; 
+    font-size: 18px;
+    font-weight: 500;
+}
+.btn-style{
+	margin-top: 15px;
+	background-color: #115f5d;
+	color: #fff;
+}
+
+.btn-csv{
+    margin-left: 100px;
+}
+
+.btn-style:hover{
+	color: #fff;
+	background-color:#00aa8e;
+}
+
+.footer{
+	color:#E0E0E0;
+	background-color:#2B2B2B;
+	padding-left:10%;
+	margin-bottom:0px;
+}
+
+textarea {
+    resize: none;
+
+}
+.border{
+    border-radius: 25px 25px 25px 25px;
+    -moz-border-radius: 25px 25px 25px 25px;
+    -webkit-border-radius: 25px 25px 25px 25px;
+    border: 3px solid #00aa8e;
+}
+a#Link{
+    color: #115f5d;      
+}
+
+a#Link:hover{
+    color:#00aa8e;
+}
+.line{
+    border-bottom : 2px solid #00aa8e;
+}
+
+.outter{
+    margin: 5px;
+    padding: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.29);
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+}
+
+
+.control {
+    color:#000 !important;
+    padding:1%;
+    font-size:250%;
+}
+
+h1{
+    font-weight: 300%;
+    font-size: 400%;
+}
+
+.margin{
+    margin-right: 45px;
+}
