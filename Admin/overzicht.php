@@ -32,7 +32,6 @@ $sqlGeenAfspraak = "SELECT inschrijving.Leerling_ID, leerlingen.Voornaam, leerli
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <link rel="icon" href="../Afbeeldingen/login.png">
 
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -162,7 +161,7 @@ $sqlGeenAfspraak = "SELECT inschrijving.Leerling_ID, leerlingen.Voornaam, leerli
     <!--Footer-->
     <div class="footer navbar-fixed-bottom">
       Docent informatie 2016.
-      </br>
+      <br/>
       &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
     </div>
     <!--Einde footer-->

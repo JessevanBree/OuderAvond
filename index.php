@@ -3,7 +3,7 @@
 		<meta charset="utf-8">
 		<title>Ouderavond</title>
 		<!-- Bootstrap core CSS -->
-		<link href="Bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
@@ -69,8 +69,10 @@
         </div>
 		<div class="footer navbar-fixed-bottom">
             Ouderavond 2016.
-            </br>
+            <br/>
             &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
         </div>
   	</body>
 </html>
+
+;aslkdjf;laksdjf;lkasjdf;lkajse;lfkj a pwoij psodijf po aiwejpoifjapoijpo ijsd pofij apoisjepofijawpeoifjaposidjfpoaisdjfpoij
