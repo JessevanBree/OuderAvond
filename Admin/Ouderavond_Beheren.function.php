@@ -74,9 +74,9 @@
 					$Eind_Tijd_Getal2 = $Eind_Tijd_Getal2 + 10;
 				}
 			}
-			
-			//vergroot de huidige datum met 1 dag.
-			$datum++;
+			//verhoogt de datum met 1 dag
+			$datum = date("d-m-Y", strtotime($datum . '+1 day'));
+
 		}
 		return true;
 	}

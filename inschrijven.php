@@ -23,7 +23,7 @@
 		<title>aanmelden</title>
 
 		<!-- Bootstrap core CSS -->
-		<link href="Bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
 		<link href="style-aa.css" rel="stylesheet">
@@ -45,8 +45,36 @@
 					</ul>;
 				</div>
 		</nav>
-		<div class="container-fluid ">	
-			<div class="col-md-offset-2 col-md-8 well">
+		<div class="container-fluid ">
+			<div class="col-md-2"><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
+				<table class="table-condensed">
+					<?php
+						$temp = 0;
+						//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
+						$sqli_dagen = "SELECT Datum FROM tijden_binnen_avond WHERE Afgerond='0' GROUP BY Datum";
+						$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
+
+						//maakt de querry die alle gegevens ophaalt
+						$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0'";
+						$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
+
+						while(mysqli_fetch_array($sqli_dagen_uitkomst)){
+							//maakt een while loop die alles in een tabel zet.
+							while($row = mysqli_fetch_array($sqli_overzicht_uitkomst)){
+								echo "<tr>";
+									echo "<td>";
+										 echo $row["Datum"];
+									echo "</td>";
+								echo "</tr>";
+
+								$temp ++;
+								echo $temp; echo "<br>";
+							}
+						}
+					?>
+				</table>
+			</div>
+			<div class="col-md-8 well">
 					<?php
 						//controleert of de leerling zich al heeft ingeschreven. 
 						$sqli_select_inschrijving = "SELECT Inschrijving_ID FROM inschrijving WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0";
@@ -214,12 +242,12 @@
 		</div> <!-- /container -->
 		<div class="footer navbar-fixed-bottom">
             Ouderavond 2016.
-            </br>
+            <br/>
             &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
         </div>
 		
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="Bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+		<script src="bootstrap/js/ie10-viewport-bug-workaround.js"></script>
 	</body>
 </html>
 
