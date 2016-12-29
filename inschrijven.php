@@ -9,6 +9,9 @@
 	//haalt de nodige bestanden op
 	require_once("database.php");
 	require_once("inschrijven.function.php");
+
+	//geeft de tijdzone aan waar wij zijn.
+	date_default_timezone_set('europe/amsterdam');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,32 +50,64 @@
 		</nav>
 		<div class="container-fluid ">
 			<div class="col-md-2"><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
-				<table class="table-condensed">
-					<?php
-						$temp = 0;
-						//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
-						$sqli_dagen = "SELECT Datum FROM tijden_binnen_avond WHERE Afgerond='0' GROUP BY Datum";
-						$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
+				<div class="table-responsive">
+					<table class="table table-condensed">
+						<?php
+							//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
+							$sqli_dagen = "SELECT Datum FROM tijden_binnen_avond WHERE Afgerond='0' GROUP BY Datum";
+							$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
 
-						//maakt de querry die alle gegevens ophaalt
-						$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0'";
-						$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
-
-						while(mysqli_fetch_array($sqli_dagen_uitkomst)){
-							//maakt een while loop die alles in een tabel zet.
-							while($row = mysqli_fetch_array($sqli_overzicht_uitkomst)){
+							while($datum_select = mysqli_fetch_array($sqli_dagen_uitkomst)){
+								//geeft boven aan de tabel exstra informatie
 								echo "<tr>";
 									echo "<td>";
-										 echo $row["Datum"];
+										echo "Dag";
+									echo "</td>";
+									echo "<td>";
+										echo "Datum";
 									echo "</td>";
 								echo "</tr>";
+								var_dump($datum_select);
+								//maakt de querry die alle gegevens ophaalt gerelateerd aan de datum die in de while loop staat.
+								$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0' AND Datum='".$datum_select["Datum"]. "'";
+								$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
 
-								$temp ++;
-								echo $temp; echo "<br>";
+								//maakt een while loop die alles in een tabel zet.
+								while($row = mysqli_fetch_array($sqli_overzicht_uitkomst)){
+									if($row["Docent_ID"] > 0){
+										echo "<tr class='warning'>";
+											echo "<td>";
+												echo date("l", strtotime($row["Datum"]));
+											echo "</td>";
+											echo "<td>";
+												echo $row["Datum"];
+											echo "</td>";
+										echo "</tr>";
+									}
+									else{
+										echo "<tr class='success'>";
+											echo "<td>";
+												echo date("l", strtotime($row["Datum"]));
+											echo "</td>";
+											echo "<td>";
+												echo $row["Datum"];
+											echo "</td>";
+										echo "</tr>";
+									}
+								}
+								//geeft na de eerste dag een lege regel (voor exstra overzicht
+								echo "<tr>";
+									echo "<td>";
+										echo "";
+									echo "</td>";
+									echo "<td>";
+										echo "";
+									echo "</td>";
+								echo "</tr>";
 							}
-						}
-					?>
-				</table>
+						?>
+					</table>
+				</div>
 			</div>
 			<div class="col-md-8 well">
 					<?php
@@ -104,11 +139,6 @@
 									echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
 								echo "</div>";
 							echo "</div>";
-							
-							
-							
-							
-							###################################################################################################
 						}
 						else{
 							//geeft het menue voor het opgeven van waarneer je komt.
