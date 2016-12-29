@@ -54,7 +54,7 @@
 					<table class="table table-condensed">
 						<?php
 							//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
-							$sqli_dagen = "SELECT Datum FROM tijden_binnen_avond WHERE Afgerond='0' GROUP BY Datum";
+							$sqli_dagen = "SELECT DISTINCT Datum FROM tijden_binnen_avond WHERE Afgerond='0'";
 							$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
 
 							while($datum_select = mysqli_fetch_array($sqli_dagen_uitkomst)){
@@ -67,7 +67,7 @@
 										echo "Datum";
 									echo "</td>";
 								echo "</tr>";
-								var_dump($datum_select);
+								//var_dump($datum_select);
 								//maakt de querry die alle gegevens ophaalt gerelateerd aan de datum die in de while loop staat.
 								$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0' AND Datum='".$datum_select["Datum"]. "'";
 								$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
