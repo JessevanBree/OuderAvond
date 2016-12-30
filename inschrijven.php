@@ -48,66 +48,71 @@
 					</ul>;
 				</div>
 		</nav>
-		<div class="container-fluid ">
-			<div class="col-md-2"><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
-				<div class="table-responsive">
-					<table class="table table-condensed">
-						<?php
-							//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
-							$sqli_dagen = "SELECT DISTINCT Datum FROM tijden_binnen_avond WHERE Afgerond='0'";
-							$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
+		<div class="container-fluid" style="overflow:auto;max-height: 90vh;">
+			<div class="col-md-2" style='overflow:auto; max-height:85vh'><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
 
-							while($datum_select = mysqli_fetch_array($sqli_dagen_uitkomst)){
-								//geeft boven aan de tabel exstra informatie
-								echo "<tr>";
-									echo "<td>";
-										echo "Dag";
-									echo "</td>";
-									echo "<td>";
-										echo "Datum";
-									echo "</td>";
-								echo "</tr>";
-								//var_dump($datum_select);
-								//maakt de querry die alle gegevens ophaalt gerelateerd aan de datum die in de while loop staat.
-								$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0' AND Datum='".$datum_select["Datum"]. "'";
-								$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
 
-								//maakt een while loop die alles in een tabel zet.
-								while($row = mysqli_fetch_array($sqli_overzicht_uitkomst)){
-									if($row["Docent_ID"] > 0){
-										echo "<tr class='warning'>";
-											echo "<td>";
-												echo date("l", strtotime($row["Datum"]));
-											echo "</td>";
-											echo "<td>";
-												echo $row["Datum"];
-											echo "</td>";
-										echo "</tr>";
+					<?php
+						//maakt een query die er voor zorgt dat het juiste aantal dagen wordt weergegeven.
+						$sqli_dagen = "SELECT DISTINCT Datum FROM tijden_binnen_avond WHERE Afgerond='0'";
+						$sqli_dagen_uitkomst = mysqli_query($connect, $sqli_dagen);
+						//maakt een variabel die aangeeft hoeveel dagen er zijn.
+						$max_height = (85 / mysqli_num_rows($sqli_dagen_uitkomst)).'vh';
+
+						while($datum_select = mysqli_fetch_array($sqli_dagen_uitkomst)){
+							echo "<div style='overflow:auto; max-height:$max_height'>";
+								echo "<table class='table table-condensed'>";
+									//geeft boven aan de tabel exstra informatie
+									echo "<tr>";
+										echo "<td>";
+											echo "Dag";
+										echo "</td>";
+										echo "<td>";
+											echo "Datum";
+										echo "</td>";
+									echo "</tr>";
+									//var_dump($datum_select);
+									//maakt de querry die alle gegevens ophaalt gerelateerd aan de datum die in de while loop staat.
+									$sqli_overzicht = "SELECT Datum, Docent_ID, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond='0' AND Datum='".$datum_select["Datum"]. "'";
+									$sqli_overzicht_uitkomst = mysqli_query($connect, $sqli_overzicht);
+
+									//maakt een while loop die alles in een tabel zet.
+									while($row = mysqli_fetch_array($sqli_overzicht_uitkomst)){
+										if($row["Docent_ID"] > 0){
+											echo "<tr class='warning'>";
+												echo "<td>";
+													echo date("l", strtotime($row["Datum"]));
+												echo "</td>";
+												echo "<td>";
+													echo $row["Datum"];
+												echo "</td>";
+											echo "</tr>";
+										}
+										else{
+											echo "<tr class='success'>";
+												echo "<td>";
+													echo date("l", strtotime($row["Datum"]));
+												echo "</td>";
+												echo "<td>";
+													echo $row["Datum"];
+												echo "</td>";
+											echo "</tr>";
+										}
 									}
-									else{
-										echo "<tr class='success'>";
-											echo "<td>";
-												echo date("l", strtotime($row["Datum"]));
-											echo "</td>";
-											echo "<td>";
-												echo $row["Datum"];
-											echo "</td>";
-										echo "</tr>";
-									}
-								}
-								//geeft na de eerste dag een lege regel (voor exstra overzicht
-								echo "<tr>";
-									echo "<td>";
-										echo "";
-									echo "</td>";
-									echo "<td>";
-										echo "";
-									echo "</td>";
-								echo "</tr>";
-							}
-						?>
-					</table>
-				</div>
+									//geeft na de eerste dag een lege regel (voor exstra overzicht
+									echo "<tr>";
+										echo "<td>";
+											echo "";
+										echo "</td>";
+										echo "<td>";
+											echo "";
+										echo "</td>";
+									echo "</tr>";
+								echo "</table>";
+							echo "</div>";
+						}
+					?>
+
 			</div>
 			<div class="col-md-8 well">
 					<?php
