@@ -286,14 +286,3 @@
 	</body>
 </html>
 
-<!-- VOORBEELD VAN DE QUERY DIE GEBRUIKT WORDT VOOR HET OPHALEN VAN DE INSCHRIJVINGS GEGEVENS. 
-SELECT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum
-
-FROM inschrijving
-
-JOIN tijden_binnen_avond ON tijden_binnen_avond.Tijd_Slot = inschrijving.Tijd_Slot
-JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID
-
-WHERE Leerling_ID = 244384 AND inschrijving.Afgerond = 0
-
--->
