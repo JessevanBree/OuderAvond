@@ -36,7 +36,7 @@
 		<nav class="navbar navbar-custom">
 				<div class="container-fluid">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Ouderavond</a>
+						<a class="navbar-brand" href="index.php">Ouderavond</a>
 					</div>
 					<ul class="nav navbar-nav">
 						<li class="nav-item">
@@ -84,7 +84,7 @@
 													echo date("l", strtotime($row["Datum"]));
 												echo "</td>";
 												echo "<td>";
-													echo $row["Datum"];
+													echo $row["Begin_Tijd"];
 												echo "</td>";
 											echo "</tr>";
 										}
@@ -94,7 +94,7 @@
 													echo date("l", strtotime($row["Datum"]));
 												echo "</td>";
 												echo "<td>";
-													echo $row["Datum"];
+													echo $row["Begin_Tijd"];
 												echo "</td>";
 											echo "</tr>";
 										}

@@ -35,7 +35,7 @@
         <nav class="navbar navbar-custom">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Ouderavond</a>             
+                    <a class="navbar-brand" href="../index.php">Ouderavond</a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
