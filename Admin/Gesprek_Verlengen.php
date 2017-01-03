@@ -20,11 +20,8 @@ if(!isset($_SESSION["Admin"])){
         <!-- FONT AWESOME -->
         <script src="https://use.fontawesome.com/678a0bbe9a.js"></script>
 
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -49,27 +46,56 @@ if(!isset($_SESSION["Admin"])){
         </nav>
 
         <div class="container-fluid">
-            <input type="text" id="Filter_Box" onkeyup="Filter()" placeholder="Zoek een leerling">
+            <div class="col-md-offset-1 col-md-2 "><!-- begin search bar links -->
+                <p class="text-center">
+                    Kies een leerling om het gesrek van te verlengen.
+                </p>
+                <input type="text" id="Filter_Box" onkeyup="Filter()" placeholder="Zoek een leerling" class="form-control"><br>
+                <div class="Leerling_Lijst_Style">
+                    <ul id="Leerling_Lijst">
+                        <?php
+                            //maakt de querry die alle leerlingen uit de database haalt.
+                            $sqli_leerling_Lijst = "SELECT Leerling_ID, Voornaam, Achternaam FROM leerlingen";
+                            $sqli_leerling_Lijst_uitkomst = mysqli_query($connect, $sqli_leerling_Lijst);
 
-            <ul id="Leerling_Lijst">
-                <?php
-                    //maakt de querry die alle leerlingen uit de database haalt.
-                    $sqli_leerling_Lijst = "SELECT Leerling_ID, Voornaam, Achternaam FROM leerlingen";
-                    $sqli_leerling_Lijst_uitkomst = mysqli_query($connect, $sqli_leerling_Lijst);
+                            //zet alle leerlingen in een lijst.
+                            while($row = mysqli_fetch_array($sqli_leerling_Lijst_uitkomst)){
+                                echo "<li><a href='Gesprek_Verlengen.php?ID=".$row["Leerling_ID"]."'>". $row["Leerling_ID"] . " - " . $row['Voornaam'] . " " . $row['Achternaam'] . "</a></li>";
+                            }
+                        ?>
+                    </ul>
+                </div>
+            </div><!-- Eind search bar links -->
+            <div class="col-md-offset-1 col-md-7 vertical-align">
+                <div class="col-md-12 Leerling_Lijst_Style">
+                    <?php
+                        $ID = $_GET["ID"];
 
-                    //zet alle leerlingen in een lijst.
-                    while($row = mysqli_fetch_array($sqli_leerling_Lijst_uitkomst)){
-                        echo "<li><a href='#'>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</a></li>";
-                    }
-                ?>
-            </ul>
+                        if(isset($ID)){
+                            echo "<div class='col-md-6'>";
+                                echo "<p class=''>";
+                                    echo "met hoeveel minuten wilt u het gesrek verlengen?";
+                                echo "</p>";
 
+                                //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
+                                echo "<form action='' method='post' class='no_padding col-md-6 text-center'>";
+                                    echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
+                                    echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
+                                    echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
+                                    echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
+                                    echo "<input type='submit' value='submit' class='btn btn-primary'>";
+                                echo "</form>";
+                            echo "</div>";
+                        }
+                    ?>
+                </div>
+            </div>
 
         </div>
 
         <div class="footer navbar-fixed-bottom">
             Ouderavond 2016.
-            </br>
+            <br/>
             &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
         </div>
 

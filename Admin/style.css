@@ -87,7 +87,7 @@ a.navbar-brand:hover{
 	
 }
 
-.hoofd-div{
+
 form {
 	padding:50px;
 }
@@ -160,10 +160,44 @@ a#Link:hover{
 }
 
 h1{
-    font-weight: 300%;
     font-size: 400%;
 }
 
 .margin{
     margin-right: 45px;
+}
+
+#Leerling_Lijst {
+    /* Remove default list styling */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#Leerling_Lijst li a {
+    border: 1px solid #ddd; /* Add a border to all links */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6; /* Grey background color */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove default text underline */
+    font-size: 18px; /* Increase the font-size */
+    display: block; /* Make it into a block element to fill the whole list */
+}
+
+.Leerling_Lijst_Style{
+    max-height: 85vh;
+    overflow: auto;
+    border: 1px solid #ddd;
+}
+
+.vertical-align {
+    min-height: 40%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 40vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+}
+
+.no_padding{
+    padding:0px;
 }
