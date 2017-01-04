@@ -25,7 +25,7 @@
 		}
 	}
 
-	function Ouderavond_beginnen($datum, $Aantal_Dagen, $Begin_Tijd, $Eind_Tijd){
+	function Ouderavond_beginnen($datum, $Aantal_Dagen, $Begin_Tijd, $Eind_Tijd, $Docenten_Array){
 		require("../database.php");
 		
 		

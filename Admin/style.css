@@ -201,3 +201,20 @@ h1{
 .no_padding{
     padding:0px;
 }
+
+.docenten_checkbox{
+    overflow: auto;
+    max-height: 20vh;
+    height:20vh;
+
+    border:1px solid #ddd;
+    border-radius: 25px;
+}
+
+.padding_10{
+    padding:10px;
+}
+
+.margin_50{
+    margin-top: 50px;
+}

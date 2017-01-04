@@ -16,7 +16,7 @@
 	}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +59,6 @@
 				if(isset($_GET["check"])){
 					if($_GET["check"] == true){
 						Ouderavond_beindigen();
-						
 					}
 				}
 				echo "<br>";
@@ -86,26 +85,63 @@
 			?>
 			<br>
 
-			<div class=" col-md-6 col-md-offset-3 ">
-				<p class="text-center"> hier kunt u een nieuwe ouderavond plannen. Voor dat u een nieuwe ouderavond plant is het Belangerijk om de ouder eerst te beeindigen. </p>
-				<form action='' method='post' class='form-signin text-center'>
-					de datum van de eerste dag, de rest van de dagen zijn de dagen die er op volgen. 
-					<input type="date" name="Datum" class="form-control" required>
-					het aantal dagen dat de ouderavond duurt.
-					<input type="number" name="Aantal_Dagen" class="form-control" max="3" required>
-					de start tijd van de ouderavond.
-					<input type="time" name="Begin_Tijd" class="form-control" required>
-					de Eind tijd van de ouderavond
-					<input type="time" name="Eind_Tijd" class="form-control" required>
-					<br>
-					
-						<button  type="submit" name="submit" class="btn btn-style btn-block"><span class="glyphicon glyphicon-ok"></span>  Bevestigen</button> 
-					
-				</form>
-				
+			<div class=" col-md-12  ">
+				<p class="text-center">
+					hier kunt u een nieuwe ouderavond plannen. Voor dat u een nieuwe ouderavond plant is het Belangerijk om de ouder eerst te beeindigen.
+				</p>
+				<div class="col-md-6"><!--ouderavond menu links-->
+					<form action='' method='post' class='form-signin text-center'>
+						de datum van de eerste dag, de rest van de dagen zijn de dagen die er op volgen.
+						<input type="date" name="Datum" class="form-control" required>
+						het aantal dagen dat de ouderavond duurt.
+						<input type="number" name="Aantal_Dagen" class="form-control" max="3" required>
+						de start tijd van de ouderavond.
+						<input type="time" name="Begin_Tijd" class="form-control" required>
+						de Eind tijd van de ouderavond
+						<input type="time" name="Eind_Tijd" class="form-control" required>
+						<br>
+				</div>
+				<div class="col-md-6"><!--ouderavond menu rechts-->
+					<div class="no_padding">
+						<p class="text-center margin_50">
+							Welke docenten op de ouder avond zullen zijn.
+						</p>
+					</div>
+					<div class="form-signin padding_10 docenten_checkbox">
+						<input type="checkbox" onclick="Select_all(this)"> Alle Docenten <br>
+						<?php
+							//zet alle docenten neer als optie
+							$sqli_docenten = "SELECT Docent_ID, Voornaam, Achternaam FROM docenten";
+							$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
+							$i = 0;
+							echo "<table class='col-md-12'><tr>";
+							while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
+								$i++;
+								if($i<=2){
+									echo "<td>";
+									echo "<input type='checkbox' name='Docenten_Array[]' value='". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+									echo "</td>";
+								}
+								else{
+									echo "</tr><tr>";
+									echo "<td>";
+									echo "<input type='checkbox' name='Docenten_Array[]' value='". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+									echo "</td>";
+									$i = 0;
+								}
+							}
+							echo "</tr></table>";
+						?>
+					</div>
+				</div>
+				<div class="col-md-6 col-md-offset-3">
+					<button  type="submit" name="submit" class="btn btn-style btn-block"><span class="glyphicon glyphicon-ok"></span>  Bevestigen</button>
+				</div>
+					</form>
+
 				<?php
-					if(isset($_POST["Datum"]) && isset($_POST["Aantal_Dagen"]) && isset($_POST["Begin_Tijd"]) && isset($_POST["Eind_Tijd"])){
-						if(Ouderavond_beginnen($_POST["Datum"], $_POST["Aantal_Dagen"], $_POST["Begin_Tijd"], $_POST["Eind_Tijd"]) == true){
+					if(isset($_POST["Datum"]) && isset($_POST["Aantal_Dagen"]) && isset($_POST["Begin_Tijd"]) && isset($_POST["Eind_Tijd"]) && isset($_POST["Docenten_Array"])){
+						if(Ouderavond_beginnen($_POST["Datum"], $_POST["Aantal_Dagen"], $_POST["Begin_Tijd"], $_POST["Eind_Tijd"], $_POST["Docenten_Array"]) == true){
 							echo "de nieuwe ouderavond is succesvol gepland";
 						}
 						else{
@@ -128,7 +164,12 @@
 		
 		//window.location.replace("Ouderavond_beheren.php?check=true");
 	}
-	
+	function Select_all(source) {
+		var checkboxes = document.getElementsByName('Docenten_Array[]');
+		for(var i=0, n=checkboxes.length;i<n;i++) {
+			checkboxes[i].checked = source.checked;
+		}
+	}
 	
 	</script>
 	<!--Footer-->
