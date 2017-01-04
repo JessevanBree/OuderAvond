@@ -124,8 +124,8 @@ label {
 
 textarea {
     resize: none;
-
 }
+
 .border{
     border-radius: 25px 25px 25px 25px;
     -moz-border-radius: 25px 25px 25px 25px;
@@ -185,7 +185,7 @@ h1{
 }
 
 .Leerling_Lijst_Style{
-    max-height: 85vh;
+    max-height: 80vh;
     overflow: auto;
     border: 1px solid #ddd;
 }

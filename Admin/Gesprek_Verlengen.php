@@ -9,6 +9,23 @@ if(!isset($_SESSION["Admin"])){
     header("location:../Inlog/login.php");
     //echo "kapot2";
 }
+
+//controleerd of het ID in de URL goed is.
+if(isset($_GET["ID"])){
+    $ID = $_GET["ID"];
+    if(is_numeric($ID)){
+        //controleert of het ID wel bestaad.
+        $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
+        $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
+        if(!mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
+            header("Location: Gesprek_Verlengen.php");
+        }
+    }
+    else{
+        header("Location: Gesprek_Verlengen.php");
+    }
+}
+
 ?>
 <html lang="en">
     <head>
@@ -69,22 +86,25 @@ if(!isset($_SESSION["Admin"])){
             <div class="col-md-offset-1 col-md-7 vertical-align">
                 <div class="col-md-12 Leerling_Lijst_Style">
                     <?php
-                        $ID = $_GET["ID"];
+                        if(isset($ID)) {
+                            //schrijft een querry die de naam op haalt.
+                            $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
+                            $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
+                            $row = mysqli_fetch_array($sqli_leerling_naam_uitkomst);
+                            echo "<div class='col-md-4 text-center'>";
+                            echo "<p class=''>";
+                            echo "met hoeveel minuten wilt u het gesrek verlengen voor de leerling: <br>";
+                            echo "<b>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</b>";
+                            echo "</p>";
 
-                        if(isset($ID)){
-                            echo "<div class='col-md-6'>";
-                                echo "<p class=''>";
-                                    echo "met hoeveel minuten wilt u het gesrek verlengen?";
-                                echo "</p>";
-
-                                //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
-                                echo "<form action='' method='post' class='no_padding col-md-6 text-center'>";
-                                    echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
-                                    echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
-                                    echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
-                                    echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
-                                    echo "<input type='submit' value='submit' class='btn btn-primary'>";
-                                echo "</form>";
+                            //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
+                            echo "<form action='' method='post' class='no_padding  text-center'>";
+                            echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
+                            echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
+                            echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
+                            echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
+                            echo "<input type='submit' value='submit' class='btn btn-primary'>";
+                            echo "</form>";
                             echo "</div>";
                         }
                     ?>
