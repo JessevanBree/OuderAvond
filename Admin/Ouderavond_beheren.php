@@ -141,6 +141,7 @@
 
 				<?php
 					if(isset($_POST["Datum"]) && isset($_POST["Aantal_Dagen"]) && isset($_POST["Begin_Tijd"]) && isset($_POST["Eind_Tijd"]) && isset($_POST["Docenten_Array"])){
+						var_dump($_POST["Docenten_Array"]);
 						if(Ouderavond_beginnen($_POST["Datum"], $_POST["Aantal_Dagen"], $_POST["Begin_Tijd"], $_POST["Eind_Tijd"], $_POST["Docenten_Array"]) == true){
 							echo "de nieuwe ouderavond is succesvol gepland";
 						}
