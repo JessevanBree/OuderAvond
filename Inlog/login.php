@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Ouderavont</title>
+		<title>Ouderavond</title>
 		<!-- Bootstrap core CSS -->
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
