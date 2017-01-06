@@ -9,7 +9,7 @@
 		<meta charset="utf-8">
 		<title>Ouderavont</title>
 		<!-- Bootstrap core CSS -->
-		<link href="../Bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
@@ -61,7 +61,7 @@
         </div>
 		<div class="footer navbar-fixed-bottom">
             Docent informatie 2016.
-            </br>
+            <br/>
             &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
         </div>
   	</body>
