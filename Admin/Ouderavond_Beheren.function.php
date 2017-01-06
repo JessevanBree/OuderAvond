@@ -33,10 +33,16 @@
 		date_default_timezone_set('europe/amsterdam');
 		$datum = date("d-m-Y", strtotime($datum));
 
+		//var_dump(count($Docenten_Array));
+
 		//maakt voor iedere docent de juiste hoeeveelheid sloten aan.
-		for($X = 1; $X < count($Docenten_Array); $X++){
+		for($X = 0; $X < count($Docenten_Array); $X++){
+
 			//een for loop die net zo vaak draait als de hoeveel heid dagen.
 			for($Y = 0; $Y < $Aantal_Dagen; $Y++){
+				//maakt een variabel die gebruikt wordt voor het maken van de pauzes
+				$Pauze = 0;
+
 				//berekent het aantal tijdsloten.
 				$Temp = round($Eind_Tijd - $Begin_Tijd);
 				$Tijd_Sloten = ($Temp * 60 / 10);
@@ -54,9 +60,23 @@
 					$Begin_Tijd_Af = $Begin_Tijd_Getal1 . ":" . $Begin_Tijd_Getal2;
 					$Eind_tijd_Af = $Eind_Tijd_Getal1 . ":" . $Eind_Tijd_Getal2;
 
-					//zet het tijdslot in de database
-					$sqli_insert = "INSERT INTO tijden_binnen_avond (Tijd_Slot, Datum, Docent_ID, Leerling_ID,Begin_Tijd, Eind_tijd, Afgerond) VALUES (DEFAULT, '$datum', '". $Docenten_Array[$X] ."','0', '$Begin_Tijd_Af', '$Eind_tijd_Af', DEFAULT)";
-					mysqli_query($connect, $sqli_insert);
+					//verhoogt de variabel die de pauze moet regelen met 1
+					$Pauze ++;
+
+					//controleerdt of het huidige tijslot een pauze moet zijn.
+					if($Pauze == 13){
+						//geeft dit slot als pauze, dit wordt gedaan door geen mogelijk in teplannen voor een leerling
+					}
+					elseif($Pauze == 14){
+						//geeft dit slot als pauze, dit wordt gedaan door geen mogelijk in teplannen voor een leerling
+						//zet de waarde waar de pauze mee gecontroleerd wordt weer terug op een.
+						$Pauze = 0;
+					}
+					else{
+						//zet het tijdslot in de database
+						$sqli_insert = "INSERT INTO tijden_binnen_avond (Tijd_Slot, Datum, Docent_ID, Leerling_ID,Begin_Tijd, Eind_tijd, Afgerond) VALUES (DEFAULT, '$datum', '". $Docenten_Array[$X] ."','0', '$Begin_Tijd_Af', '$Eind_tijd_Af', DEFAULT)";
+						mysqli_query($connect, $sqli_insert);
+					}
 
 					//weizigt de getallen die in de db moeten komen.
 					if($Begin_Tijd_Getal2 == 50){
