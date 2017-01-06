@@ -38,6 +38,7 @@
 		//maakt voor iedere docent de juiste hoeeveelheid sloten aan.
 		for($X = 0; $X < count($Docenten_Array); $X++){
 
+			$datum_goed = $datum;
 			//een for loop die net zo vaak draait als de hoeveel heid dagen.
 			for($Y = 0; $Y < $Aantal_Dagen; $Y++){
 				//maakt een variabel die gebruikt wordt voor het maken van de pauzes
@@ -74,7 +75,7 @@
 					}
 					else{
 						//zet het tijdslot in de database
-						$sqli_insert = "INSERT INTO tijden_binnen_avond (Tijd_Slot, Datum, Docent_ID, Leerling_ID,Begin_Tijd, Eind_tijd, Afgerond) VALUES (DEFAULT, '$datum', '". $Docenten_Array[$X] ."','0', '$Begin_Tijd_Af', '$Eind_tijd_Af', DEFAULT)";
+						$sqli_insert = "INSERT INTO tijden_binnen_avond (Tijd_Slot, Datum, Docent_ID, Leerling_ID,Begin_Tijd, Eind_tijd, Afgerond) VALUES (DEFAULT, '$datum_goed', '". $Docenten_Array[$X] ."','0', '$Begin_Tijd_Af', '$Eind_tijd_Af', DEFAULT)";
 						mysqli_query($connect, $sqli_insert);
 					}
 
@@ -96,7 +97,7 @@
 					}
 				}
 				//verhoogt de datum met 1 dag
-				$datum = date("d-m-Y", strtotime($datum . '+1 day'));
+				$datum_goed = date("d-m-Y", strtotime($datum_goed . '+1 day'));
 
 			}
 
