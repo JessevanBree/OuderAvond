@@ -8,7 +8,7 @@
 		$sqli_tijdsloten_sluit = "UPDATE tijden_binnen_avond SET Afgerond = 1 WHERE Afgerond = 0";
 		if(mysqli_query($connect, $sqli_tijdsloten_sluit)){
 			//maakt een query die alle onafgeronde bezoeken sluit.
-			$sqli_inschrijvingen_sluit = "UPDATE inschrijving SET Afgerond = 1 WHERE Afgerond = 0";
+			$sqli_inschrijvingen_sluit = "UPDATE tijden_binnen_avond SET Afgerond = 1 WHERE Afgerond = 0";
 			if(mysqli_query($connect, $sqli_inschrijvingen_sluit)){
 				//maakt een variabel aan die wordt gebruikt voor het weergeven van een bericht als het gelukt is.
 				$_SESSION["beeindigt"] = true;
