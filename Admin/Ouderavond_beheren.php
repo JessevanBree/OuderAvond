@@ -113,7 +113,7 @@
 							//zet alle docenten neer als optie
 							$sqli_docenten = "SELECT Docent_ID, Voornaam, Achternaam FROM docenten";
 							$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
-							$i = 0;
+							$i = -1;
 							echo "<table class='col-md-12'><tr>";
 							while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
 								$i++;

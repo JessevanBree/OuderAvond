@@ -3,7 +3,7 @@
 require_once("database.php");
 require_once("inschrijven.function.php");
 ?>
-<div class="col-md-4" style='overflow:auto; max-height:85vh'><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
+<div class="col-md-3" style='overflow:auto; max-height:85vh'><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
 
         <?php
             //vraagt alle mogelijke sloten op van de docent uit de database
@@ -22,21 +22,37 @@ require_once("inschrijven.function.php");
                             echo "<th>Tijd</th>";
                         echo "</tr>";
                         //vraagt de gegevens van de docent op.
-                        $sqli_Sloten = "SELECT Datum, Begin_Tijd FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
+                        $sqli_Sloten = "SELECT Datum, Begin_Tijd, Leerling_ID FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
                         $sqli_Sloten_Uitkomst = mysqli_query($connect, $sqli_Sloten);
                         //een while loop die alle sloten van de docent weergeeft.
                         while($row1 = mysqli_fetch_array($sqli_Sloten_Uitkomst)){
-                            echo "<tr>";
-                                echo "<td>";
-                                    echo date("l", strtotime($row1["Datum"]));
-                                echo "</td>";
-                                echo "<td>";
-                                    echo $row1["Datum"];
-                                echo "</td>";
-                                echo "<td>";
-                                    echo $row1["Begin_Tijd"];
-                                echo "</td>";
-                            echo "</tr>";
+                            if($row1["Leerling_ID"] == 0){
+                                echo "<tr class='success'>";
+                                    echo "<td>";
+                                        echo date("l", strtotime($row1["Datum"]));
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $row1["Datum"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $row1["Begin_Tijd"];
+                                    echo "</td>";
+                                echo "</tr>";
+                            }
+                            else{
+                                echo "<tr class='warning'>";
+                                    echo "<td>";
+                                        echo date("l", strtotime($row1["Datum"]));
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $row1["Datum"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo $row1["Begin_Tijd"];
+                                    echo "</td>";
+                                echo "</tr>";
+                            }
+
                         }
                     echo "</table>";
                 echo  "</div>";

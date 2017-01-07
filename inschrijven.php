@@ -57,8 +57,17 @@
 						$sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID = '$ID'";
 						$sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
 						if(mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
-							//laat alle sloten zien van de geselecteerde docent.
-							require("sloten.php");
+							//controleerd of je niet al ingeschreven ben, dit moet omdat je via een rederict komt waarbij er de from gegevens (get) nog in de url staan. als je al ingeschrevenben willen we niet de mogelijke uren van de docent zien.
+							$sqli_select_inschrijving = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0";
+							if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 0){
+								//de resultaten uit het controleren of je al ben ingeschreven zijn 0, dus je bent niet ingeschreven.
+								//laat alle sloten zien van de geselecteerde docent.
+								require("sloten.php");
+							}
+							else{
+								//het blijkt dat je al ben ingeschreven, dus de beschickbaare sloten worden niet laten zien.
+								echo "<div class='col-md-2'></div>";
+							}
 						}
 						else{
 							echo "<div class='col-md-2'></div>";
@@ -79,10 +88,10 @@
 						if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 1){
 							$sqli_select_gegevens_inschrijving = "SELECT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
 							$row = mysqli_fetch_array(mysqli_query($connect, $sqli_select_gegevens_inschrijving));
-							
+
 							//var_dump($row);
 							echo "<div class='col-md-12'>";
-								echo "hier zijn uw inschrijvings gegevens.";
+								echo "hier zijn uw verlopige inschrijvings gegevens.";
 								echo "<br>";
 								echo "<br>";
 								
@@ -105,7 +114,10 @@
 						}
 						elseif(isset($ID)){
 							//geeft het menue voor het opgeven van waarneer je komt.
-							echo "<form action='' method='post' class='form-signin text-center'>";
+							echo "<form action='' method='get' class='form-signin text-center'>";
+								//maakt een ontzichtbare input om het gekozen docent id bewaardt te laten
+								echo "<input type='hidden' name='ID' value='".$ID."'>";
+
 								echo " kies een datum ";
 								echo "<select name='Datum' required>";
 									//maatk een querry om alledatums op te halen
@@ -129,8 +141,8 @@
 							echo "</form>";
 						
 							//controleert of de post gebeurt is
-							if(isset($_POST["Datum"]) && isset($_POST["avond_deel"]) && isset($ID)){
-								if($_POST["Datum"] != 0){
+							if(isset($_GET["Datum"]) && isset($_GET["avond_deel"]) && isset($ID)){
+								if($_GET["Datum"] != 0){
 									//exstra controle om te kijken of de leerling niet al is ingeschreven.
 									$sqli_inschrijving_check = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0";
 									if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 0) {
@@ -148,74 +160,110 @@
 						}
 						else{
 							//hier de docent selecteren.
+							echo "<div class='text-center'>";
+								echo "<p>";
+									echo "Kies de docent waarmee je een 10 minuten gesprek wil hebben";
+								echo "<p>";
+							echo "</div>";
+							//zet alle docenten neer als optie
+							$sqli_docenten = "SELECT Docent_ID, Voornaam, Achternaam FROM docenten";
+							$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
+							$i = -1;
+							echo "<table class='col-md-12'><tr>";
+							while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
+								$i++;
+								if($i<=2){
+									echo "<td>";
+									echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+									echo "</td>";
+								}
+								else{
+									echo "</tr><tr>";
+									echo "<td>";
+									echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+									echo "</td>";
+									$i = 0;
+								}
+							}
+							echo "</tr></table>";
 						}
 					?>		
 			</div>
 			
 			
-			<div class="col-md-8 well">
+
 				<?php
 					if(isset($post_check)){
 						if($post_check == true){
-							//echo de datum die is op gegeven in de post
-							echo "<div class='col-md-2 col-md-offset-1'>";
-								echo "de Datum: <br>";
-								echo $_POST["Datum"];
-							echo "</div>";
-							//geeft aan welk gedeelte van de avond is gekozen
-							echo "<div class='col-md-2 col-md-offset-1 text-center'>";
-								echo "het gedeelte van de avond: <br>";
-								if($_POST["avond_deel"] == "begin"){
-									echo "begin van de avond";
-								}
-								else{
-									echo "het eind van de avond";
-								}
-							echo "</div>";
-							//geeft de naam van de docent die gekozen is
-							echo "<div class='col-md-2 col-md-offset-1'>";
-								echo "de docent: <br>";
-								//haalt de naam van de docent op uit de database, dit moet omdat in de post alleen een ID zit.
-								$sqli_select_docent_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID='$ID'";
-								$row = mysqli_fetch_array(mysqli_query($connect, $sqli_select_docent_naam));
-								//echo de docent naam
-								echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
-							echo "</div>";
-							
-							//zet alle post variablen in gewoone variablen, dit is nodig want anders verwijnen de ingevoerde gegevens.
-							$_SESSION["datum"] = $_POST["Datum"];
-							$_SESSION["avond_deel"] = $_POST["avond_deel"];
-							$_SESSION["docent"] = $ID;
-							
-							//geeft de knop dat je het er mee eens bent en dat je dit wil laten invoeren.
-							//dit doe ik doormiddel van een hidden form met hidden imput
-							echo "<form action='' method='post' class='form-signin text-center'>";
-								echo "<input type='hidden' value='check' name='check'>";
-								echo "<input type='submit' value='submit'>";
-							echo "</form>";
-						}
-					}
-					//controleert of de post check gebeurt is.
-					if(isset($_POST["check"])){
-						//controleert of allegegevens aanwezig zijn.
-						if(isset($_SESSION["datum"]) && isset($_SESSION["avond_deel"]) && isset($_SESSION["docent"])){
-							//controleert of de fucntie gewerkt heeft.
-							if(inschrijven($_SESSION["datum"], $_SESSION["avond_deel"], $_SESSION["docent"]) == true){
-								echo "<div class='text-center'>";
-								echo "uw inschrijving is gelukt";
+							echo "<div class='col-md-8 well'>";
+								echo "<div class='col-md-12' >";
+									//echo de datum die is op gegeven in de post
+									echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de Datum: <br>";
+										echo $_GET["Datum"];
+									echo "</div>";
+									//geeft aan welk gedeelte van de avond is gekozen
+									echo "<div class='col-md-3 text-center'>";
+										echo "het gedeelte van de avond: <br>";
+										if($_GET["avond_deel"] == "begin"){
+											echo "begin van de avond";
+										}
+										else{
+											echo "het eind van de avond";
+										}
+									echo "</div>";
+									//geeft de naam van de docent die gekozen is
+									echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de docent: <br>";
+										//haalt de naam van de docent op uit de database, dit moet omdat in de post alleen een ID zit.
+										$sqli_select_docent_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID='$ID'";
+										$row = mysqli_fetch_array(mysqli_query($connect, $sqli_select_docent_naam));
+										//echo de docent naam
+										echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+									echo "</div>";
+
+									//zet alle post variablen in gewoone variablen, dit is nodig want anders verwijnen de ingevoerde gegevens.
+									$_SESSION["datum"] = $_GET["Datum"];
+									$_SESSION["avond_deel"] = $_GET["avond_deel"];
+									$_SESSION["docent"] = $ID;
+
+									//geeft de knop dat je het er mee eens bent en dat je dit wil laten invoeren.
+									//dit doe ik doormiddel van een hidden form met hidden imput
+									echo "<form action='' method='post' class='form-signin text-center col-md-2 '>";
+										echo "<input type='hidden' value='check' name='check'>";
+										echo "<input type='submit' value='submit'>";
+									echo "</form>";
 								echo "</div>";
-							}
-							else{
-								echo "er is een onbekende fout opgetreden, probeer het op nieuw of neem contact op met de systeem beheerder. ";
-							}
-							//verwijdert de $_SESSION variabelen
-							unset($_SESSION["datum"]);
-							unset($_SESSION["avond_deel"]);
-							unset($_SESSION["docent"]);
+
+								//controleert of de post check gebeurt is.
+								if(isset($_POST["check"])){
+									//controleert of allegegevens aanwezig zijn.
+									if(isset($_SESSION["datum"]) && isset($_SESSION["avond_deel"]) && isset($_SESSION["docent"])){
+										//controleert of de fucntie gewerkt heeft.
+										if(inschrijven($_SESSION["datum"], $_SESSION["avond_deel"], $_SESSION["docent"]) == true){
+											echo "<div class='col-md-4 col-md-offset-4 text-center '>";
+												echo "<p class='Gelukt'><br>";
+													echo "uw inschrijving is gelukt <br>";
+												echo "</p>";
+												echo "klik <a href='inschrijven.php'> hier</a> om uw verlopige inschrijvings gegevens te bekijken.";
+											echo "</div>";
+
+											//verwijdert de $_SESSION variabelen
+											unset($_SESSION["datum"]);
+											unset($_SESSION["avond_deel"]);
+											unset($_SESSION["docent"]);
+										}
+										else{
+											echo "er is een onbekende fout opgetreden, probeer het op nieuw of neem contact op met de systeem beheerder. ";
+										}
+									}
+								}
+							echo "</div>";
 						}
 					}
+				//var_dump($_SESSION["post_check"]);
 				?>
-			</div>
+
 		</div> <!-- /container -->
 		<div class="footer navbar-fixed-bottom">
             Ouderavond 2016.
