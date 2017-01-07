@@ -1,30 +1,34 @@
 <?php
-require_once("../database.php");
-session_start();
+    require_once("../database.php");
 
-if(!isset($_SESSION["ingelogt"])){
-    header("location:../Inlog/login.php");
-}
-if(!isset($_SESSION["Admin"])){
-    header("location:../Inlog/login.php");
-    //echo "kapot2";
-}
+    session_start();
 
-//controleerd of het ID in de URL goed is.
-if(isset($_GET["ID"])){
-    $ID = $_GET["ID"];
-    if(is_numeric($ID)){
-        //controleert of het ID wel bestaad.
-        $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
-        $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
-        if(!mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
+    //controleerd of de session niet al verlopen is
+    require_once("../SESSION_Time_Out.php");
+
+    if(!isset($_SESSION["ingelogt"])){
+        header("location:../Inlog/login.php");
+    }
+    if(!isset($_SESSION["Admin"])){
+        header("location:../Inlog/login.php");
+        //echo "kapot2";
+    }
+
+    //controleerd of het ID in de URL goed is.
+    if(isset($_GET["ID"])){
+        $ID = $_GET["ID"];
+        if(is_numeric($ID)){
+            //controleert of het ID wel bestaad.
+            $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
+            $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
+            if(!mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
+                header("Location: Gesprek_Verlengen.php");
+            }
+        }
+        else{
             header("Location: Gesprek_Verlengen.php");
         }
     }
-    else{
-        header("Location: Gesprek_Verlengen.php");
-    }
-}
 
 ?>
 <html lang="en">

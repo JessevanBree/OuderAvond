@@ -4,7 +4,9 @@
 	//haalt de nodige bestanden op
 	require_once("../database.php");
 	require_once("Ouderavond_Beheren.function.php");
-	
+
+	//controleerd of de session niet al verlopen is
+	require_once("../SESSION_Time_Out.php");
 	session_start();
 	
 	if(!isset($_SESSION["ingelogt"])){

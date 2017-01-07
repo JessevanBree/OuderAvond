@@ -1,7 +1,10 @@
 <?php
 	require_once("../database.php");
 	session_start();
-	
+
+    //controleerd of de session niet al verlopen is
+    require_once("../SESSION_Time_Out.php");
+
 	if(!isset($_SESSION["ingelogt"])){
 		header("location:../Inlog/login.php");
 	}
