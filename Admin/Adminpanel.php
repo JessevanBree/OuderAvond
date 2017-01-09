@@ -67,8 +67,8 @@
             <a href="docentToevoegen.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
                     <center>
-                    <i class="fa fa-user-plus fa-5x" aria-hidden="true"></i><br><br>
-                    Docent toevoegen
+                        <img src="docent-add-hover.png" onmouseover="this.src='docent-add.png'" onmouseout="this.src='docent-add-hover.png'" alt="Image not found"><br><br>
+                        Docent toevoegen
                     </center>
                 </div>
             </a>
@@ -76,7 +76,7 @@
             <a href="Leerling_Toevoegen.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
                     <center>
-                    <i class="fa fa-user-plus fa-5x" aria-hidden="true"></i><br><br>
+                    <i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
                     Leerling toevoegen
                     </center>
                 </div>
