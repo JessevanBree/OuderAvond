@@ -18,14 +18,14 @@
 					if(isset($_SESSION["ingelogt"])){
 						echo "<ul class='nav navbar-nav navbar-right'>";
 							echo "<li class='nav-item '>";
-								echo "<a class='nav-link ' href='Inlog/loguit.php'> loguit</a>";
+								echo "<a class='nav-link ' <button href='Inlog/loguit.php'><span class=\"glyphicon glyphicon-log-in\"></span> Uitloggen</button></a>";
 							echo "</li>";
 						echo "</ul>";
 
 						if(isset($_SESSION["Admin"])){
 							echo "<ul class='nav navbar-nav navbar-right'>";
 								echo "<li class='nav-item '>";
-									echo "<a class='nav-link ' href='Admin/Adminpanel.php'> Admin panel</a>";
+									echo "<a class='nav-link ' <buton href='Admin/Adminpanel.php'><span class=\"glyphicon glyphicon-calendar\"></span> Admin panel</buton></a>";
 								echo "</li>";
 							echo "</ul>";
 						}
@@ -33,7 +33,7 @@
 					else{
 						echo "<ul class='nav navbar-nav navbar-right'>";
 							echo "<li class='nav-item '>";
-								echo "<a class='nav-link ' <button href='Inlog/login.php'><span class=\"glyphicon glyphicon-log-in\"></span> login</a> </button>";
+								echo "<a class='nav-link ' <button href='Inlog/login.php'><span class=\"glyphicon glyphicon-log-in\"></span> login</button></a>";
 							echo "</li>";
 						echo "</ul>";
 					}
