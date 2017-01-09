@@ -16,7 +16,7 @@
 }
 
 .bgcolor{
-	background-color:#F2F2F2;
+	background-color:#ededed;
 }
 
 .btn-style{
@@ -36,5 +36,9 @@
 }
 
 .Gelukt{
-    font-size: 20px;
+	font-size: 20px;
+}
+
+.text-style{
+	font-size:140%;
 }

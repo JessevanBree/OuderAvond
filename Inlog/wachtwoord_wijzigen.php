@@ -14,15 +14,22 @@
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
     <body class="kleur-effect">
-      <nav class="navbar">
-		<div class="navbar-custom">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Ouderavond</a>
-				</div>
-			</div>
-		</div>
-    </nav>
+        <nav class="navbar navbar-custom">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Ouderavond</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../admin/Adminpanel.php"><span class="glyphicon glyphicon-calendar"></span> Admin panel</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../Inlog/loguit.php"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="container">
             <div class="row">      
                 <div class='col col-4'>

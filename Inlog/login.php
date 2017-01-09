@@ -14,15 +14,13 @@
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
     <body class="kleur-effect">
-      <nav class="navbar">
-		<div class="navbar-custom">
+        <nav class="navbar navbar-custom">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Ouderavond</a>
+					<a class="navbar-brand" href="../index.php">Ouderavond</a>
 				</div>
 			</div>
-		</div>
-    </nav>
+        </nav>
         <div class="container">
             <div class="row">      
                 <div class='col col-4'>

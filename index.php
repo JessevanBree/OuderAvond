@@ -33,7 +33,7 @@
 					else{
 						echo "<ul class='nav navbar-nav navbar-right'>";
 							echo "<li class='nav-item '>";
-								echo "<a class='nav-link ' href='Inlog/login.php'> login</a>";
+								echo "<a class='nav-link ' <button href='Inlog/login.php'><span class=\"glyphicon glyphicon-log-in\"></span> login</a> </button>";
 							echo "</li>";
 						echo "</ul>";
 					}
@@ -49,7 +49,7 @@
                                 <h1 class='text-center'>Welkom</h1>
                             </div>
                            
-							<div class='modal-body'>
+							<div class='modal-body text-style'>
 								<p class="text-center">
 									Welkom, op deze website kunt u aangeven waarneer u de Ouderavond komt bezoeken.
 									om aantekunnen geven waarneer u komt, moet u eerst inloggen.
