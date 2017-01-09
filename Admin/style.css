@@ -185,7 +185,7 @@ h1{
 }
 
 .Leerling_Lijst_Style{
-    max-height: 80vh;
+    max-height: 75vh;
     overflow: auto;
     border: 1px solid #ddd;
 }
