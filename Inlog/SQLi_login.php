@@ -17,10 +17,10 @@
 				$password = mysqli_real_escape_string($connect, $password);
 				
 				//controleerdt of er voor de eerste keer wordt ingelogt(leerlingen)
-				$sqli = "SELECT Leerling_ID, Wachtwoord, Salt FROM leerlingen WHERE Leerling_ID='$username' AND Wachtwoord='$password' AND eerste_inlog=0"; 
+				$sqli = "SELECT Leerling_ID, Wachtwoord, Salt FROM leerlingen WHERE Leerling_ID='$username' AND Wachtwoord='$password' AND eerste_inlog=1";
 				$uitkomst = mysqli_query($connect, $sqli);
 				//controleerdt of er voor de eerste keer wordt ingelogt(docenten)
-				$sqli_docenten = "SELECT Docent_ID, Wachtwoord, Salt FROM docenten WHERE Afkorting='$username' AND Wachtwoord='$password' AND eerste_inlog=0"; 
+				$sqli_docenten = "SELECT Docent_ID, Wachtwoord, Salt FROM docenten WHERE Afkorting='$username' AND Wachtwoord='$password' AND eerste_inlog=1";
 				$uitkomst_docenten = mysqli_query($connect, $sqli_docenten);
 				if(mysqli_num_rows($uitkomst) >= 1){
 					//je bent voor het eerst ingelogt.

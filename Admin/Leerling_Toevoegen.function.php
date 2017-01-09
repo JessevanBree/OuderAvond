@@ -1,51 +1,56 @@
 <?php
 	//de fucntie om een enkele leerling toetevoegen.
-	function Leerling_Toevoegen($Leerling_Nummer, $Voornaam, $Achternaam, $Telefoon, $Email, $Woonplaats, $Straatnaam, $Huisnummer, $Postcode, $Tijdelijk_Wachtwoord){
+	function Leerling_Toevoegen($Leerling_Nummer, $Voornaam, $Voorvoegsel, $Achternaam, $Relatie_tot_deelnemer, $Begindatum, $Einddatum, $Plaatsing, $Tijdelijk_Wachtwoord){
 		//haalt de nodige bestanden op
 		require("../database.php");
 		
 		//beveiligen tegen SQL injection en scripting
+
+        $Leerling_Nummer = stripcslashes($Leerling_Nummer);
 		$Voornaam = stripcslashes($Voornaam);
+        $Voorvoegsel = stripcslashes($Voorvoegsel);
 		$Achternaam = stripcslashes($Achternaam);
-		$Email = stripcslashes($Email);
-		$Woonplaats = stripcslashes($Woonplaats);
-		$Straatnaam = stripcslashes($Straatnaam);
+        $Relatie_tot_deelnemer = stripcslashes($Relatie_tot_deelnemer);
+        $Begindatum = stripcslashes($Begindatum);
+        $Einddatum = stripcslashes($Einddatum);
+        $Plaatsing = stripcslashes($Plaatsing);
 		$Tijdelijk_Wachtwoord = stripcslashes($Tijdelijk_Wachtwoord);
-		
+
+        $Leerling_Nummer = mysqli_real_escape_string($connect, $Leerling_Nummer);
 		$Voornaam = mysqli_real_escape_string($connect, $Voornaam);
+        $Voorvoegsel = mysqli_real_escape_string($connect, $Voorvoegsel);
 		$Achternaam = mysqli_real_escape_string($connect, $Achternaam);
-		$Email = mysqli_real_escape_string($connect, $Email);
-		$Woonplaats = mysqli_real_escape_string($connect, $Woonplaats);
-		$Straatnaam = mysqli_real_escape_string($connect, $Straatnaam);
+        $Relatie_tot_deelnemer = mysqli_real_escape_string($connect, $Relatie_tot_deelnemer);
+        $Begindatum = mysqli_real_escape_string($connect, $Begindatum);
+        $Einddatum = mysqli_real_escape_string($connect, $Einddatum);
+        $Plaatsing = mysqli_real_escape_string($connect, $Plaatsing);
 		$Tijdelijk_Wachtwoord = mysqli_real_escape_string($connect, $Tijdelijk_Wachtwoord);
-		
+
 		//bereid de querry voor de de gegevens in de database zetten
 		$sqli_gegevensinvoer = "INSERT INTO leerlingen 
 							(
 								Leerling_ID,
-								Voornaam,
-								Achternaam,
-								Telefoon,
-								Email,
-								Woonplaats,
-								Straatnaam,
-								Huisnummer,
-								Postcode,
-								Wachtwoord,
-								Salt,
-								Eerste_Inlog
+                                Voornaam,
+                                Voorvoegsel,
+                                Achternaam,
+                                Relatie_tot_deelnemer,
+                                Begindatum,
+                                Einddatum,
+                                Plaatsing,
+                                Wachtwoord,
+                                Salt,
+                                Eerste_Inlog
 							)
 							VALUES
 							(
 								'$Leerling_Nummer',
 								'$Voornaam',
+								'$Voorvoegsel',
 								'$Achternaam',
-								'$Telefoon',
-								'$Email',
-								'$Woonplaats',
-								'$Straatnaam',
-								'$Huisnummer',
-								'$Postcode',
+								'$Relatie_tot_deelnemer',
+								'$Begindatum',
+								'$Einddatum',
+								'$Plaatsing',
 								'$Tijdelijk_Wachtwoord',
 								'0',
 								'0'
@@ -77,10 +82,6 @@
 		//echo "<script> var modal_open = true </script>";
 		
 		if (($handle = fopen($_FILES["csv"]["tmp_name"], "r")) !== FALSE) {
-			
-			//
-			
-			
 			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 				//var_dump($data);
 				$data = explode(";", $data[0]);
@@ -91,18 +92,23 @@
 				$sqli_inlog_check_uitkomst = mysqli_query($connect, $sqli_inlog_check);
 				//var_dump($sqli_inlog_check_uitkomst);
 				if(mysqli_num_rows($sqli_inlog_check_uitkomst) != 1){
+                    //maatk het tijdelijke wachtwoord aan.
+                    $Wachtwoord = $data[1] . $data[2] . $data[3];
+                    //maakt de salt en de eerste inlog aan.
+                    $Salt = 0;
+                    $Eerste_Innlog = 1;
+
 					//maakt de querry
 					$sqli_gegevensinvoer = "INSERT INTO leerlingen 
 					(
 						Leerling_ID,
 						Voornaam,
+						Voorvoegsel,
 						Achternaam,
-						Telefoon,
-						Email,
-						Woonplaats,
-						Straatnaam,
-						Huisnummer,
-						Postcode,
+						Relatie_tot_deelnemer,
+						Begindatum,
+						Einddatum,
+						Plaatsing,
 						Wachtwoord,
 						Salt,
 						Eerste_Inlog
@@ -117,10 +123,9 @@
 						'$data[5]',
 						'$data[6]',
 						'$data[7]',
-						'$data[8]',
-						'$data[9]',
-						'data[10]',
-						'data[11]'
+						'$Wachtwoord',
+						'$Salt',
+						'$Eerste_Innlog'
 					)";
 					
 					//var_dump($sqli_insert);echo "<br>";
@@ -133,8 +138,6 @@
 						echo "als u deze melding ziet, neem dan contact op met het de beheerder van het systeem <br> error: 13";
 						return false;
 					}
-					
-					
 					
 					//omtezorgen dat het script zeer grote bestanden kan importeren.
 					set_time_limit(0);
