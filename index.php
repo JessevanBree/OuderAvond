@@ -18,7 +18,7 @@
 					if(isset($_SESSION["ingelogt"])){
 						echo "<ul class='nav navbar-nav navbar-right'>";
 							echo "<li class='nav-item '>";
-								echo "<a class='nav-link ' <button href='Inlog/loguit.php'><span class=\"glyphicon glyphicon-log-in\"></span> Uitloggen</button></a>";
+								echo "<a class='nav-link ' <button href='Inlog/loguit.php'><span class=\"glyphicon glyphicon-log-out\"></span> Uitloggen</button></a>";
 							echo "</li>";
 						echo "</ul>";
 
