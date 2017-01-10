@@ -83,7 +83,7 @@
             </a>
             <a href="Gesprek_Verlengen.php" id="Link">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
-                        <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
+                        <i class="fa fa-commenting-o fa-5x" aria-hidden="true"></i><br><br>
                         Gesperk verlengen
                 </div>
             </a>

@@ -45,6 +45,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="index.php"><span class="glyphicon glyphicon-th-list"></span> Welkom pagina</a>
 						</li>
+						<li>
+							<a href="Inlog/wachtwoord_wijzigen.php"><span class="glyphicon glyphicon-pencil "></span> Wachtwoord wijzigen</a>
+						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="Inlog/loguit.php"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li><!--Uitloggen knop -->					
