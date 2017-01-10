@@ -38,14 +38,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Docent toevoegen</title>
-        <!-- FONT AWESOME -->
-        <script src="https://use.fontawesome.com/678a0bbe9a.js"></script>
 
         <!-- Bootstrap core CSS -->
         <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="../bootstrap/js/vendor/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
         <link href="style.css" rel="stylesheet">
     </head>
 
@@ -87,31 +86,100 @@
                     </ul>
                 </div>
             </div><!-- Eind search bar links -->
-            <div class="col-md-offset-1 col-md-7 vertical-align">
-                <div class="col-md-12 Leerling_Lijst_Style">
-                    <?php
-                        if(isset($ID)) {
-                            //schrijft een querry die de naam op haalt.
-                            $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
-                            $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
-                            $row = mysqli_fetch_array($sqli_leerling_naam_uitkomst);
-                            echo "<div class='col-md-4 text-center'>";
-                            echo "<p class=''>";
-                            echo "met hoeveel minuten wilt u het gesrek verlengen voor de leerling: <br>";
-                            echo "<b>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</b>";
-                            echo "</p>";
+            <div class="col-md-offset-1 col-md-8 vertical-align ">
+                <div class="col-md-12"> <!-- NIET VERWIJDEREN -->
+                    <div class="col-md-11 Leerling_Lijst_Style">
+                        <?php
+                            if(isset($ID)) {
+                                //schrijft een querry die de naam op haalt.
+                                $sqli_leerling_naam = "SELECT Voornaam, Voorvoegsel, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
+                                $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
+                                $row = mysqli_fetch_array($sqli_leerling_naam_uitkomst);
+                                //zet de naam goed neer
+                                if(!empty($row["Voorvoegsel"])){
+                                    $naam = $row['Voornaam'] . "&nbsp" . $row["Voorvoegsel"] .  "&nbsp"  . $row['Achternaam'];
+                                }
+                                else{
+                                    $naam = $row['Voornaam'] . "&nbsp" . $row['Achternaam'];
+                                }
 
-                            //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
-                            echo "<form action='' method='post' class='no_padding  text-center'>";
-                            echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
-                            echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
-                            echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
-                            echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
-                            echo "<input type='submit' value='submit' class='btn btn-primary'>";
-                            echo "</form>";
-                            echo "</div>";
-                        }
-                    ?>
+                                //geeft het overzicht van de inschrijvings gegevens.
+                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
+                                $sqli_inschrijving_uitkomst = mysqli_query($connect, $sqli_inschrijving);
+                                if(mysqli_num_rows($sqli_inschrijving_uitkomst) > 0){
+                                    $row = mysqli_fetch_array($sqli_inschrijving_uitkomst);
+                                    echo "<div class='col-md-7 text-center'>";
+                                    echo "<br>";
+                                    echo "<p class='text-center'>";
+                                    echo "de inschrijvings gegevens van: <b>" . $naam . "</b>";
+                                    echo "</p>";
+                                    echo "<table class='text-center table'>";
+                                        echo "<tr>";
+                                            echo "<td>";
+                                                echo "datum";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "begin tijd";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "Eind tijd";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "Docent";
+                                            echo "</td>";
+                                        echo "</tr>";
+                                        echo "<tr>";
+                                            echo "<td>";
+                                                echo $row["Datum"];
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo $row["Begin_Tijd"];
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo $row["Eind_Tijd"];
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+                                            echo "</td>";
+                                        echo "</tr>";
+                                    echo "</table>";
+                                    echo "</div>";
+                                }
+                                else{
+                                    echo "<div class='col-md-7 text-center'>";
+                                    echo "<br>";
+                                    echo "Deze leefling heeft zicht niet ingeschrven.";
+                                    echo "</div>";
+                                }
+
+
+
+                                //geeft het menu waar je het gesrek kan verlengen.
+                                echo "<div class=' col-md-4 text-center'>";
+                                echo "<p class=''>";
+                                echo "met hoeveel minuten wilt u het gesrek verlengen voor de leerling: <br>";
+                                echo "<b>" . $naam . "</b>";
+                                echo "</p>";
+
+                                //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
+                                echo "<form action='' method='post' class='no_padding  text-center'>";
+                                echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
+                                echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
+                                echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
+                                echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
+                                echo "<input type='submit' value='submit' class='btn btn-primary'>";
+                                echo "</form>";
+                                echo "</div>";
+                            }
+                        ?>
+                    </div>
+                    <div class="col-md-1">
+                        <!-- spacer, voor goede styling -->
+                    </div>
+                    <div class="col-md-11 Leerling_Lijst_Style margin_15">
+                        <?php
+                        ?>
+                    </div>
                 </div>
             </div>
 
@@ -140,6 +208,23 @@
                     } else {
                         li[i].style.display = "none";
                     }
+                }
+            }
+
+            function PopupCenter(url, title, w, h) {
+                var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+                var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+                var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+                var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+                var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+                var top = ((height / 2) - (h / 2)) + dualScreenTop;
+                var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+                // Puts focus on the newWindow
+                if (window.focus) {
+                    newWindow.focus();
                 }
             }
         </script>
