@@ -23,9 +23,9 @@
 						echo "</ul>";
 
 						if(isset($_SESSION["Admin"])){
-							echo "<ul class='nav navbar-nav navbar-right'>";
+							echo "<ul class='nav navbar-nav'>";
 								echo "<li class='nav-item '>";
-									echo "<a class='nav-link ' <buton href='Admin/Adminpanel.php'><span class=\"glyphicon glyphicon-calendar\"></span> Admin panel</buton></a>";
+									echo "<a class='nav-link ' <buton href='Admin/Adminpanel.php'><span class=\"glyphicon glyphicon-calendar\"></span> Docenten</buton></a>";
 								echo "</li>";
 							echo "</ul>";
 						}

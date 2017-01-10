@@ -41,7 +41,7 @@
 				</div>
 				<ul class="nav navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="Adminpanel.php"><span class="glyphicon glyphicon-calendar"></span> Admin overzicht</a> <!--Link in navbar -->
+						<a class="nav-link" href="Adminpanel.php"><span class="glyphicon glyphicon-calendar"></span> Docenten</a> <!--Link in navbar -->
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

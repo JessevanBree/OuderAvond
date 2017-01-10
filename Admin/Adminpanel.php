@@ -56,45 +56,35 @@
 
         <article class="container-fluid">
             <a href="overzicht.php" id="Link">   
-                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
-                    <center>
+                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                     <i class="fa fa-list fa-5x" aria-hidden="true"></i><br>
                     Overzicht van alle docenten
-                    </center>
                 </div>
             </a>
 
-            <a href="docentToevoegen.php" id="Link">   
-                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
-                    <center>
-                        <img src="docent-add-hover.png" onmouseover="this.src='docent-add.png'" onmouseout="this.src='docent-add-hover.png'" alt="Image not found"><br><br>
+            <a href="docentToevoegen.php" id="Link" onmouseover="document.getElementById('myImage').src='../afbeeldingen/docent-add.png'" onmouseout="document.getElementById('myImage').src='../afbeeldingen/docent-add-hover.png'">
+                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center" >
+                        <img id="myImage" src="../Afbeeldingen/docent-add-hover.png" alt="Image not found"><br><br>
                         Docent toevoegen
-                    </center>
                 </div>
             </a>
 
             <a href="Leerling_Toevoegen.php" id="Link">   
-                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
-                    <center>
+                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                     <i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
                     Leerling toevoegen
-                    </center>
                 </div>
             </a>
             <a href="Ouderavond_beheren.php" id="Link">   
-                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
-                    <center>
+                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                     <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br>
                     Ouderavond beheren
-                    </center>
                 </div>
             </a>
             <a href="Gesprek_Verlengen.php" id="Link">
-                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin">
-                    <center>
-                        <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
+                <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
+                        <i class="fa fa-commenting-o fa-5x" aria-hidden="true"></i><br><br>
                         Gesperk verlengen
-                    </center>
                 </div>
             </a>
         </article>
