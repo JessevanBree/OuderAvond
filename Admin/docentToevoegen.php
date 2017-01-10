@@ -53,31 +53,19 @@
     
     <form action="docentToevoegen.php" method="post">
         <div class="col-md-5 col-md-offset-1">
-            <label for="Naam Docent">Voornaam Docent:</label>
+            <h3>Docent Toevoegen</h3>
+
+            <label for="Naam Docent">Voornaam:</label>
             <input type="text" name="Voornaam" placeholder="Naam Docent" class="form-control" required>
 
-
-            <label for="Achternaam">Achternaam Docent:</label>
+            <label for="Achternaam">Achternaam:</label>
             <input type="text" name="Achternaam" placeholder="Achternaam" class="form-control" min="0" max="99" value="" required>
-            
 
-            <label for="Inlognaam">Inlognaam Docent:</label>
-            <input type="text" name="Inlognaam" placeholder="Inlognaam" class="form-control" min="0" max="99" value="" required>
-
-            <label for="Wachtwoord">Tijdelijk wachtwoord Docent:</label>
-            <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" value="" required>
-
-
-            <label for="Afkorting">Afkorting Docent:</label>
+            <label for="Afkorting">Afkorting:</label>
             <input type="text" name="Afkorting" placeholder="Afkorting" class="form-control" required max=3>
-            
-            <div class="form-group">
-            <label for="Admin">Admin:</label>
-            <select class="form-control" id="Admin" name="admin">
-                <option value=1>Ja</option>
-                <option value=0>Nee</option>
-            </select>
-            </div>
+
+            <label for="Wachtwoord">Tijdelijk wachtwoord:</label>
+            <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" value="" required>
             
 
             <br>
@@ -88,21 +76,28 @@
         </div>
             
     </form>
+        <?php
+            if(isset($_POST['Verzenden'])){
+                $Docent_Check = "SELECT Afkorting FROM docenten WHERE Afkorting ='".$_POST['Afkorting']."';";
+                $Docent_Check_Uitvoer = mysqli_query($connect, $Docent_Check);
+                $row = mysqli_fetch_array($Docent_Check_Uitvoer);
 
-    <?php
-    if(isset($_POST['Verzenden'])){
-        $ToevoegenQ = "INSERT INTO `docenten` (`Docent_ID`, `Voornaam`, `Achternaam`, `Afkorting`, `Inlognaam`, `Wachtwoord`, `Salt`, `Eerste_inlog`) VALUES (NULL, '".$_POST['Voornaam']."', '".$_POST['Achternaam']."', '".$_POST['Afkorting']."', '".$_POST['Inlognaam']."', '".$_POST['Wachtwoord']."', '0', '".$_POST['admin']."');";
-
-        $toevoegen = mysqli_query($Verbinding,$ToevoegenQ);
-        if(!$ToevoegenQ){
-
-            echo "<div class='alert alert-danger col-md-5 ' role='alert'>Gegevens niet ingevoegd</div>";
-        }else{
-            echo "<div class='alert alert-success col-md-5 ' role='alert'>Gegevens ingevoegd</div>";
-        }
-
-    }
-
+                if($row["Afkorting"] != $_POST['Afkorting']) {
+                    if (isset($_POST['Voornaam']) && ($_POST['Achternaam']) && ($_POST['Afkorting']) && ($_POST['Wachtwoord'])) {
+                        $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Wachtwoord, Salt, Eerste_inlog) 
+                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Wachtwoord'] . "', '0', '1');";
+                        if (mysqli_query($connect, $ToevoegenQ)) {
+                            echo "<div class='alert alert-success col-md-5 ' role='alert'>Gegevens ingevoegd</div>";
+                        }
+                        else {
+                            echo "<div class='alert alert-danger col-md-5 ' role='alert'>Gegevens niet ingevoegd</div>";
+                        }
+                    }
+                }
+                else {
+                    echo "<div class='alert alert-danger col-md-5 ' role='alert'>Een docent met deze gegevens is al ingevoerd in het systeem </div>";
+                }
+            }
         ?>
         </br>
         
