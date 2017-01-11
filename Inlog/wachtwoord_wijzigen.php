@@ -19,13 +19,25 @@
         <nav class="navbar navbar-custom">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Ouderavond</a>
+                    <a class="navbar-brand" href="../index.php">Ouderavond</a>
                 </div>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../admin/Adminpanel.php"><span class="glyphicon glyphicon-calendar"></span> Admin panel</a>
-                    </li>
-                </ul>
+                <?php
+                session_start();
+                if(isset($_SESSION["Admin"])){
+                    echo "<ul class='nav navbar-nav'>";
+                        echo "<li class='nav-item '>";
+                            echo "<a class='nav-link ' <buton href='../Admin/Adminpanel.php'><span class=\"glyphicon glyphicon-calendar\"></span> Docenten</buton></a>";
+                        echo "</li>";
+                    echo "</ul>";
+                }
+                else{
+                    echo "<ul class='nav navbar-nav'>";
+                        echo "<li class='nav-item '>";
+                            echo "<a class='nav-link ' <buton href='../inschrijven.php'><span class=\"glyphicon glyphicon-copy\"></span> Inschrijven</buton></a>";
+                        echo "</li>";
+                    echo "</ul>";
+                }
+                ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="../Inlog/loguit.php"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li>
                 </ul>
