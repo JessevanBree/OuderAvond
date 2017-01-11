@@ -52,9 +52,9 @@
         </nav>
     
     <form action="docentToevoegen.php" method="post">
-        <div class="col-md-5 col-md-offset-1">
+        <div class="col-md-3 col-md-offset-1">
             <h3>Docent Toevoegen</h3>
-
+            <br>
             <label for="Naam Docent">Voornaam:</label>
             <input type="text" name="Voornaam" placeholder="Naam Docent" class="form-control" required>
 
@@ -87,15 +87,15 @@
                         $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Wachtwoord, Salt, Eerste_inlog) 
                                        VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Wachtwoord'] . "', '0', '1');";
                         if (mysqli_query($connect, $ToevoegenQ)) {
-                            echo "<div class='alert alert-success col-md-5 ' role='alert'>Gegevens ingevoegd</div>";
+                            echo "<div class='alert alert-success col-md-offset-1 col-md-3 text-center' role='alert'>Gegevens ingevoegd</div>";
                         }
                         else {
-                            echo "<div class='alert alert-danger col-md-5 ' role='alert'>Gegevens niet ingevoegd</div>";
+                            echo "<div class='alert alert-danger col-md-offset-1 col-md-3 text-center' role='alert'>Gegevens niet ingevoegd</div>";
                         }
                     }
                 }
                 else {
-                    echo "<div class='alert alert-danger col-md-5 ' role='alert'>Een docent met deze gegevens is al ingevoerd in het systeem </div>";
+                    echo "<div class='alert alert-danger col-md-offset-1 col-md-4 text-center' role='alert'>Een docent met deze gegevens is al ingevoerd in het systeem </div>";
                 }
             }
         ?>
