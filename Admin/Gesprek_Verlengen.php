@@ -179,6 +179,7 @@
                         <!-- spacer, voor goede styling -->
                     </div>
                     <div class="col-md-11 text-center Leerling_Lijst_Style margin_15">
+                        <p class='padding_10 font_size'>
                         <?php
                         if(isset($_POST["Tijd"]) && isset($ID)){
                             if($_POST["Tijd"] == 5 || $_POST["Tijd"] == 10){
@@ -256,6 +257,7 @@
                             }
                         }
                         ?>
+                        </p>
                     </div>
                 </div>
             </div>
