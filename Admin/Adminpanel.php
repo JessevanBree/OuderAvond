@@ -20,6 +20,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Docent toevoegen</title>
+        <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../favicon.ico" type="image/x-icon">
         <!-- FONT AWESOME -->
         <script src="https://use.fontawesome.com/678a0bbe9a.js"></script>
 
