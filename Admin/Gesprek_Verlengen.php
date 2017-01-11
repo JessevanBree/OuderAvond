@@ -104,7 +104,7 @@
                                 }
 
                                 //geeft het overzicht van de inschrijvings gegevens.
-                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
+                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Tijd_Slot, tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
                                 $sqli_inschrijving_uitkomst = mysqli_query($connect, $sqli_inschrijving);
                                 if(mysqli_num_rows($sqli_inschrijving_uitkomst) > 0){
                                     $row = mysqli_fetch_array($sqli_inschrijving_uitkomst);
@@ -178,6 +178,17 @@
                     </div>
                     <div class="col-md-11 Leerling_Lijst_Style margin_15">
                         <?php
+                        if(isset($_POST["Tijd"]) && isset($ID)){
+                            if($_POST["Tijd"] == 5 || $_POST["Tijd"] == 10){
+                                //je witl het gesrek verlengen met 1 slot
+                                //controleren of de opvolgende sloten nog beschikbaar zijn.
+                                
+                            }
+                            elseif($_POST["Tijd"] == 15 || $_POST["Tijd"] == 20){
+                                // je wilt het gesprek verlegnen met 2 sloten.
+                                //controleren of de opvolgende sloten nog beschikbaar zijn.
+                            }
+                        }
                         ?>
                     </div>
                 </div>
