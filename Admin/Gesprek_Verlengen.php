@@ -92,7 +92,7 @@
                         <?php
                             if(isset($ID)) {
                                 //schrijft een querry die de naam op haalt.
-                                $sqli_leerling_naam = "SELECT Voornaam, Voorvoegsel, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
+                                $sqli_leerling_naam = "SELECT Leerling_ID, Voornaam, Voorvoegsel, Achternaam FROM leerlingen WHERE Leerling_ID = '$ID'";
                                 $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
                                 $row = mysqli_fetch_array($sqli_leerling_naam_uitkomst);
                                 //zet de naam goed neer
@@ -102,9 +102,11 @@
                                 else{
                                     $naam = $row['Voornaam'] . "&nbsp" . $row['Achternaam'];
                                 }
+                                //zet het leerling id in een variabel
+                                $Leerling_ID = $row["Leerling_ID"];
 
                                 //geeft het overzicht van de inschrijvings gegevens.
-                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Tijd_Slot, tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
+                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Tijd_Slot, tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Docent_ID ,docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
                                 $sqli_inschrijving_uitkomst = mysqli_query($connect, $sqli_inschrijving);
                                 if(mysqli_num_rows($sqli_inschrijving_uitkomst) > 0){
                                     $row = mysqli_fetch_array($sqli_inschrijving_uitkomst);
@@ -176,17 +178,81 @@
                     <div class="col-md-1">
                         <!-- spacer, voor goede styling -->
                     </div>
-                    <div class="col-md-11 Leerling_Lijst_Style margin_15">
+                    <div class="col-md-11 text-center Leerling_Lijst_Style margin_15">
                         <?php
                         if(isset($_POST["Tijd"]) && isset($ID)){
                             if($_POST["Tijd"] == 5 || $_POST["Tijd"] == 10){
                                 //je witl het gesrek verlengen met 1 slot
-                                //controleren of de opvolgende sloten nog beschikbaar zijn.
-                                
+                                //controleren of de opvolgende sloten bestaan (zelfde dag / algemeen)
+                                $Tijd_Slot_Check_Waarde = $row["Tijd_Slot"] + 1;
+                                $sqli_check_slot = "SELECT Tijd_Slot, Leerling_ID, Datum, Begin_Tijd FROM tijden_binnen_avond WHERE Docent_ID = '".$row["Docent_ID"]."' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde' AND Datum = '".$row["Datum"]."'";
+                                $sqli_check_slot_uitkomst = mysqli_query($connect, $sqli_check_slot);
+                                if(mysqli_num_rows($sqli_check_slot_uitkomst) >= 1){
+                                    //het volgende slot bestaad, dus verder gaan met de andere checks
+                                    //controleerd of het slot die je wilt gaan gebruiken al bezet is.
+                                    $sqli_check_bezet = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '0' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde'";
+                                    $sqli_check_bezet_uitkomst = mysqli_query($connect, $sqli_check_bezet);
+                                    if(mysqli_num_rows($sqli_check_bezet_uitkomst) == 1){
+                                        //het slot dat je wil gebruiken is vrij, dus het slot kan worden gereserveerd voor de leerling
+                                        $sqli_slot_update = "UPDATE tijden_binnen_avond SET Leerling_ID = '$Leerling_ID' WHERE Tijd_Slot = '$Tijd_Slot_Check_Waarde'";
+                                        if(mysqli_query($connect, $sqli_slot_update)){
+                                            echo "het gesprek is succesvol verlengt.";
+                                        }
+                                        else{
+                                            echo "ERROR";
+                                        }
+                                    }
+                                    else{
+                                        //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
+                                        echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
+                                        echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                        echo " herindelen.";
+                                    }
+                                }
+                                else{
+                                    echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
+                                    echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                }
                             }
                             elseif($_POST["Tijd"] == 15 || $_POST["Tijd"] == 20){
                                 // je wilt het gesprek verlegnen met 2 sloten.
-                                //controleren of de opvolgende sloten nog beschikbaar zijn.
+                                //controleren of de opvolgende sloten bestaan (zelfde dag / algemeen)
+                                $Tijd_Slot_Check_Waarde = $row["Tijd_Slot"] + 1;
+                                $sqli_check_slot = "SELECT Tijd_Slot, Leerling_ID, Datum, Begin_Tijd FROM tijden_binnen_avond WHERE Docent_ID = '".$row["Docent_ID"]."' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde' AND Datum = '".$row["Datum"]."'";
+                                $Tijd_Slot_Check_Waarde1 = $row["Tijd_Slot"] + 2;
+                                $sqli_check_slot1 = "SELECT Tijd_Slot, Leerling_ID, Datum, Begin_Tijd FROM tijden_binnen_avond WHERE Docent_ID = '".$row["Docent_ID"]."' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde1' AND Datum = '".$row["Datum"]."'";
+                                $sqli_check_slot_uitkomst = mysqli_query($connect, $sqli_check_slot);
+                                $sqli_check_slot_uitkomst1 = mysqli_query($connect, $sqli_check_slot1);
+                                if((mysqli_num_rows($sqli_check_slot_uitkomst) >= 1) AND (mysqli_num_rows($sqli_check_slot_uitkomst1) >= 1)){
+                                    //het volgende slot bestaad, dus verder gaan met de andere checks
+                                    //controleerd of het slot die je wilt gaan gebruiken al bezet is.
+                                    $sqli_check_bezet = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '0' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde'";
+                                    $sqli_check_bezet1 = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '0' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde1'";
+                                    $sqli_check_bezet_uitkomst = mysqli_query($connect, $sqli_check_bezet);
+                                    $sqli_check_bezet_uitkomst1 = mysqli_query($connect, $sqli_check_bezet1);
+                                    if((mysqli_num_rows($sqli_check_bezet_uitkomst) == 1) AND (mysqli_num_rows($sqli_check_bezet_uitkomst1) == 1)){
+                                        //het slot dat je wil gebruiken is vrij, dus het slot kan worden gereserveerd voor de leerling
+                                        $sqli_slot_update = "UPDATE tijden_binnen_avond SET Leerling_ID = '$Leerling_ID' WHERE Tijd_Slot = '$Tijd_Slot_Check_Waarde'";
+                                        $sqli_slot_update1 = "UPDATE tijden_binnen_avond SET Leerling_ID = '$Leerling_ID' WHERE Tijd_Slot = '$Tijd_Slot_Check_Waarde1'";
+                                        if((mysqli_query($connect, $sqli_slot_update)) AND(mysqli_query($connect, $sqli_slot_update1))){
+                                            echo "het gesprek is succesvol verlengt.";
+                                        }
+                                        else{
+                                            echo "ERROR";
+                                        }
+                                    }
+                                    else{
+                                        //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
+                                        echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
+                                        echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                        echo " herindelen.";
+                                    }
+                                }
+                                else{
+                                    echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
+                                    echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                }
+
                             }
                         }
                         ?>
