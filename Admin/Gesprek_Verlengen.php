@@ -245,7 +245,7 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                        echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
                                         echo " herindelen.";
                                     }
                                 }
@@ -284,7 +284,8 @@
                     a = li[i].getElementsByTagName("a")[0];
                     if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
                         li[i].style.display = "";
-                    } else {
+                    }
+                    else{
                         li[i].style.display = "none";
                     }
                 }
