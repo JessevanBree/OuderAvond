@@ -61,17 +61,37 @@
 
       
       ?>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="text-center">
           <h2><?php echo $row['Datum']; ?></h2>
         </div>
+				<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Leerlingnummer</td>
+							</tr>
+						</thead>
+						<tbody>
+							
+					
         <?php
-        $sqlGegevens = "SELECT * FROM tijden_binnen_avond WHERE tijden_binnen_avond.Datum = '".$row['Datum']."';";
-        $result = mysqli_query($connect,$sqlGegevens);
-        while($row1 = mysqli_fetch_assoc($result)){
-          echo $row1['Datum'];
+        $sqlGegevens = "SELECT `Leerling_ID`, `Begin_Tijd` FROM `tijden_binnen_avond` WHERE tijden_binnen_avond.Datum = '".$row['Datum']."';";
+        $result1 = mysqli_query($connect,$sqlGegevens);
+        while($row = mysqli_fetch_assoc($result1)){
+          ?>
+						<tr>
+							<td><?php echo $row['Leerling_ID']; ?></td>
+						</tr>
+							
+					<?php
         }
         ?>
+					<tr>
+							<td><?php echo $sqlGegevens; ?></td>
+						</tr>
+					</tbody>
+				</table>
+			
       </div>
       <?php
     }
