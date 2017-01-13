@@ -186,7 +186,7 @@
                                 //je witl het gesrek verlengen met 1 slot
                                 //controleren of de opvolgende sloten bestaan (zelfde dag / algemeen)
                                 $Tijd_Slot_Check_Waarde = $row["Tijd_Slot"] + 1;
-                                $sqli_check_slot = "SELECT Tijd_Slot, Leerling_ID, Datum, Begin_Tijd FROM tijden_binnen_avond WHERE Docent_ID = '".$row["Docent_ID"]."' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde' AND Datum = '".$row["Datum"]."'";
+                                $sqli_check_slot = "SELECT Tijd_Slot, Leerling_ID, Datum, Begin_Tijd, Docent_ID FROM tijden_binnen_avond WHERE Docent_ID = '".$row["Docent_ID"]."' AND Tijd_Slot = '$Tijd_Slot_Check_Waarde' AND Datum = '".$row["Datum"]."'";
                                 $sqli_check_slot_uitkomst = mysqli_query($connect, $sqli_check_slot);
                                 if(mysqli_num_rows($sqli_check_slot_uitkomst) >= 1){
                                     //het volgende slot bestaad, dus verder gaan met de andere checks
@@ -208,6 +208,10 @@
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
                                         echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
                                         echo " herindelen.";
+
+                                        $_SESSION["Docent_ID"] = $row["Docent_ID"];
+                                        $_SESSION["Leerling_ID"] = $ID;
+                                        $_SESSION["Datum"] = $row["Datum"];
                                     }
                                 }
                                 else{
@@ -247,6 +251,10 @@
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
                                         echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
                                         echo " herindelen.";
+
+                                        $_SESSION["Docent_ID"] = $row["Docent_ID"];
+                                        $_SESSION["Leerling_ID"] = $ID;
+                                        $_SESSION["Datum"] = $row["Datum"];
                                     }
                                 }
                                 else{

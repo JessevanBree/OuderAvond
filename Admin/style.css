@@ -226,3 +226,12 @@ h1{
 .font_size{
     font-size: 18px;
 }
+
+.List_Sort{
+    margin: 0;
+}
+
+.margin_bottom{
+    /* DEZE KAN GEBRUIKT WORDEN OM DE FOOTER NIET VOOR JE ELEMENT TE LATEN LOPEN, */
+    margin-bottom: 5vh;
+}
