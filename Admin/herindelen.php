@@ -45,6 +45,10 @@ if(isset($_GET["ID"])){
     <!-- Latest compiled and minified JavaScript -->
     <script src="../bootstrap/js/vendor/jquery.min.js"></script>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- de scripte die gebruikt worden voor de sorteer funcite -->
+    <script type="text/javascript" src="redips-drag-min.js"></script>
+
     <link href="style.css" rel="stylesheet">
 </head>
 
@@ -66,6 +70,48 @@ if(isset($_GET["ID"])){
 
         <?php
         //geeft alle opties qua leerlingen die moeten worden ingedeelt.
+        echo "<div id='redips-drag'>";
+        echo "<table class='table table-condensed margin_bottom' id='table1'>";
+            echo "<tr>";
+                echo "<th colspan='2' class='redips-drag t1'>$Docent_Naam</th>";
+            echo "</tr>";
+            echo "<tr>";
+                echo "<td>";
+                    echo "<p>Begin tijd</p>";
+                echo "</td>";
+                echo "<td>";
+                    echo "<p>Leerling</p>";
+                echo "</td>";
+            echo "</tr>";
+        //haalt alle leerlingen op die op die dag staan.
+        $sqli_gegevens = "SELECT Tijd_Slot, Datum, Begin_Tijd, Eind_Tijd, Leerling_ID FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='".$_SESSION["Docent_ID"]."' AND Datum='".$_SESSION["Datum"]."'";//ALLE SLOTEN
+        $sqli_gegevens_uitkomst = mysqli_query($connect, $sqli_gegevens);
+        while($row = mysqli_fetch_array($sqli_gegevens_uitkomst)){
+            echo "<tr>";
+                echo "<td>";
+                    echo "<p>".$row['Begin_Tijd']."</p>";
+                echo "</td>";
+                echo "<td>";
+                    echo "<div id='link1' class='redips-drag t1'>".$row["Leerling_ID"]."</div>";
+                echo "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        echo "</div>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         echo "<div class='col-md-2' ondrop='drop(event)' ondragover='allowDrop(event)' ondragstart='drag(event)' style='min-height: 100px; min-width: inherit'>";
             //maakt de naam goed.(en haalt hem op) (SLECHT TE LEZEN SORRY)
@@ -99,16 +145,7 @@ if(isset($_GET["ID"])){
 
         echo "<h3>De planning van : ". strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"] ."</h3>";
 
-        echo "<table class='table table-condensed margin_bottom'>";
-            echo "<tr>";
-                echo "<td>";
-                    echo "<p>Begin tijd</p>";
-                echo "</td>";
-                echo "<td>";
-                    echo "<p>Leerling</p>";
-                echo "</td>";
-            echo "</tr>";
-        echo "</table>";
+
             //haalt alle inschrijvings gegevens op (gerelateerd aan de docent die gekozen is bij het verlengen.()
             $sqli_gegevens = "SELECT Tijd_Slot, Datum, Begin_Tijd, Eind_Tijd FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='".$_SESSION["Docent_ID"]."' AND Datum='".$_SESSION["Datum"]."'";//ALLE SLOTEN
             $sqli_gegevens_uitkomst = mysqli_query($connect, $sqli_gegevens);
@@ -140,20 +177,28 @@ if(isset($_GET["ID"])){
     &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
 </div>
 
-<script>
-    //maatk het zo dat je de lijst kan her indelen.
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
+<script type="text/javascript">
+    // after page is loaded, initialize DIV elements inside table
+    window.onload = function () {
+        // reference to the REDIPS.drag library
+        var	rd = REDIPS.drag;
+        // initialization
+        rd.init();
+        // set hover color
+        rd.hover.colorTd = '#E7C7B2';
+        // set drop option to 'shift'
+        rd.dropMode = 'shift';
+        // set shift mode to vertical2
+        rd.shift.mode = 'vertical2';
+        // enable shift animation
+        rd.shift.animation = true;
+        // set animation loop pause
+        rd.animation.pause = 20;
+        // display action in the message line (list of all event handlers can be found at the drag.js bottom)
+        rd.event.clicked	= function () {document.getElementById('message').innerHTML = 'Element is clicked'}
+        rd.event.moved		= function () {document.getElementById('message').innerHTML = 'Element is moved'}
+        rd.event.notMoved	= function () {document.getElementById('message').innerHTML = 'Element is not moved'}
+        rd.event.dropped	= function () {document.getElementById('message').innerHTML = 'Element is dropped'}
     }
 </script>
 </body>
