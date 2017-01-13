@@ -68,26 +68,26 @@
             <a href="docentToevoegen.php" id="Link" onmouseover="document.getElementById('myImage').src='../afbeeldingen/docent-add.png'" onmouseout="document.getElementById('myImage').src='../afbeeldingen/docent-add-hover.png'">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center" >
                     <img id="myImage" src="../Afbeeldingen/docent-add-hover.png" alt="Image not found" class="DocToevIMG"><br>
-                    Docent toevoegen
+                    Docent <br> toevoegen
                 </div>
             </a>
 
             <a href="Leerling_Toevoegen.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                     <i class="fa fa-user-plus fa-5x DocToevIMG" aria-hidden="true"></i>
-                    Leerling toevoegen
+                    Leerling <br> toevoegen
                 </div>
             </a>
             <a href="Ouderavond_beheren.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                     <i class="fa fa-cogs fa-5x DocToevIMG" aria-hidden="true"></i><br>
-                    Ouderavond beheren
+                    Ouderavond <br> beheren
                 </div>
             </a>
             <a href="Gesprek_Verlengen.php" id="Link">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
                         <i class="fa fa-commenting-o fa-5x DocToevIMG" aria-hidden="true"></i><br>
-                        Gesperk verlengen
+                        Gesperk <br> verlengen
                 </div>
             </a>
         </article>
