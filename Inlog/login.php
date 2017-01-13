@@ -10,8 +10,12 @@
 		<title>Ouderavond</title>
         <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
         <link rel="icon" href="../favicon.ico" type="image/x-icon">
-		<!-- Bootstrap core CSS -->
-		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="../bootstrap/js/vendor/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
 		<!-- Custom styles for this template -->
 		<link href="style-aa.css" rel="stylesheet">
 	</head>

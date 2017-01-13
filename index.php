@@ -6,6 +6,10 @@
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<!-- Bootstrap core CSS -->
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="bootstrap/js/vendor/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 		<!-- Custom styles for this template -->
 		<link href="style-aa.css" rel="stylesheet">
 	</head>
@@ -56,10 +60,13 @@
 									Welkom, op deze website kunt u aangeven waarneer u de Ouderavond komt bezoeken.
 									om aantekunnen geven waarneer u komt, moet u eerst inloggen.
 								</p>
-								<br/>					
-								<a href="inschrijven.php" class='btn btn-block btn-lg btn-style'>
-									inschrijven
-								</a>									
+								<br/>
+								<?php
+								if(!isset($_SESSION["Admin"])){
+									echo "<a href='inschrijven.php' class='btn btn-block btn-lg btn-style'>inschrijven</a>";
+								}
+
+								?>
 							</div>
                         </div>
                     </div>
