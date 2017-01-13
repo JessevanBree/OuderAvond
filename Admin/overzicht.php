@@ -17,7 +17,11 @@
   
 
   //sql codes ophalen voor overzicht
-  $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond ORDER BY tijden_binnen_avond.Datum";
+  $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond 
+  JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
+  WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."'
+  AND tijden_binnen_avond.Leerling_ID <> 0
+  ORDER BY tijden_binnen_avond.Datum"; //CONTROLEER leerlingID of dit goed is
 ?>
 <!DOCTYPE html>
 <html>
@@ -54,8 +58,10 @@
 		</nav>		
 		<div class="hoofd-div">
 		<?php
+	//Query uitvoeren
     $result = mysqli_query($connect,$sqlDatums);
 
+	//Dit draait aan het aantal Datums wat er zijn
     while($row = mysqli_fetch_array($result)){
       
 
@@ -63,32 +69,45 @@
       ?>
       <div class="col-md-6">
         <div class="text-center">
+
           <h2><?php echo $row['Datum']; ?></h2>
         </div>
 				<table class="table table-striped">
 						<thead>
 							<tr>
 								<td>Leerlingnummer</td>
+								<td>Naam</td>
+								<td>Start / Eindtijd</td>
 							</tr>
 						</thead>
 						<tbody>
 							
 					
         <?php
-        $sqlGegevens = "SELECT `Leerling_ID`, `Begin_Tijd` FROM `tijden_binnen_avond` WHERE tijden_binnen_avond.Datum = '".$row['Datum']."';";
+		//Alle gegevens van de leerlingen + tijd
+        $sqlGegevens = "SELECT leerlingen.Achternaam, leerlingen.Voornaam, tijden_binnen_avond.Leerling_ID, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd 
+						FROM tijden_binnen_avond 
+						JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
+						JOIN leerlingen ON tijden_binnen_avond.Leerling_ID = leerlingen.Leerling_ID 
+						WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."' 
+						AND tijden_binnen_avond.Datum = '".$row['Datum']."';"; 
         $result1 = mysqli_query($connect,$sqlGegevens);
+		//echo $sqlGegevens; //Controle van sql code
+		//echo $sqlDatums; // Controle SQL
+
+		//Draait zolang er records zijn per datum
         while($row = mysqli_fetch_assoc($result1)){
           ?>
 						<tr>
 							<td><?php echo $row['Leerling_ID']; ?></td>
+							<td><?php echo $row['Achternaam'] .", ". $row['Voornaam']; ?></td>
+							<td><?php echo $row['Begin_Tijd'] ." / ".$row['Eind_Tijd'] ; ?></td>
 						</tr>
 							
 					<?php
         }
         ?>
-					<tr>
-							<td><?php echo $sqlGegevens; ?></td>
-						</tr>
+					
 					</tbody>
 				</table>
 			
