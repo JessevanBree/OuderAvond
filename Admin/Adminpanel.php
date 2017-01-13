@@ -13,6 +13,9 @@
 			//echo "kapot2";
 	}
 ?>
+
+
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -25,14 +28,12 @@
         <!-- FONT AWESOME -->
         <script src="https://use.fontawesome.com/678a0bbe9a.js"></script>
 
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- Bootstrap core CSS -->
+        <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="../bootstrap/js/vendor/jquery.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
         <link href="style.css" rel="stylesheet">
     </head>
 
@@ -59,34 +60,34 @@
         <article class="container-fluid">
             <a href="overzicht.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
-                    <i class="fa fa-list fa-5x" aria-hidden="true"></i><br>
+                    <i class="fa fa-list fa-5x DocToevIMG" aria-hidden="true"></i><br>
                     Overzicht van alle docenten
                 </div>
             </a>
 
             <a href="docentToevoegen.php" id="Link" onmouseover="document.getElementById('myImage').src='../afbeeldingen/docent-add.png'" onmouseout="document.getElementById('myImage').src='../afbeeldingen/docent-add-hover.png'">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center" >
-                        <img id="myImage" src="../Afbeeldingen/docent-add-hover.png" alt="Image not found"><br><br>
-                        Docent toevoegen
+                    <img id="myImage" src="../Afbeeldingen/docent-add-hover.png" alt="Image not found" class="DocToevIMG"><br>
+                    Docent <br> toevoegen
                 </div>
             </a>
 
             <a href="Leerling_Toevoegen.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
-                    <i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
-                    Leerling toevoegen
+                    <i class="fa fa-user-plus fa-5x DocToevIMG" aria-hidden="true"></i>
+                    Leerling <br> toevoegen
                 </div>
             </a>
             <a href="Ouderavond_beheren.php" id="Link">   
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
-                    <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br>
-                    Ouderavond beheren
+                    <i class="fa fa-cogs fa-5x DocToevIMG" aria-hidden="true"></i><br>
+                    Ouderavond <br> beheren
                 </div>
             </a>
             <a href="Gesprek_Verlengen.php" id="Link">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center">
-                        <i class="fa fa-commenting-o fa-5x" aria-hidden="true"></i><br><br>
-                        Gesperk verlengen
+                        <i class="fa fa-commenting-o fa-5x DocToevIMG" aria-hidden="true"></i><br>
+                        Gesperk <br> verlengen
                 </div>
             </a>
         </article>

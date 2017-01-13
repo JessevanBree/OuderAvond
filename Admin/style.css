@@ -235,3 +235,8 @@ h1{
     /* DEZE KAN GEBRUIKT WORDEN OM DE FOOTER NIET VOOR JE ELEMENT TE LATEN LOPEN, */
     margin-bottom: 5vh;
 }
+
+.DocToevIMG{
+    Width: 10vh;
+    height: 10vh;
+}
