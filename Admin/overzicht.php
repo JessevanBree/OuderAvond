@@ -113,7 +113,7 @@
 			<?php
 		}else{
 			?>
-			<div class="alert alert-danger" role="alert"><strong>Let op!</strong> Geen leerling hebt zicht op deze datum ingeschreven</div>
+			<div class="alert alert-danger col-sm-11" role="alert"><strong>Let op!</strong> Geen leerling hebt zicht op deze datum ingeschreven</div>
 			<?php
 		}
 		
