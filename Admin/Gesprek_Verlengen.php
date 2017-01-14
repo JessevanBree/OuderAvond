@@ -206,7 +206,7 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                        echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
                                         echo " herindelen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
@@ -216,7 +216,7 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
                                 }
                             }
                             elseif($_POST["Tijd"] == 15 || $_POST["Tijd"] == 20){
@@ -259,7 +259,7 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`Adminpanel.php`, `verplaatsen`)' >hier</button>";
+                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
                                 }
 
                             }
