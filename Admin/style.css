@@ -240,3 +240,19 @@ h1{
     Width: 10vh;
     height: 10vh;
 }
+
+.t1{
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.status_ding{
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 15px;
+}
+
+.no_margin{
+    margin:0px;
+}
