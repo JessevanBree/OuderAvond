@@ -39,6 +39,9 @@
 
         <title>Docent toevoegen</title>
 
+        <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
         <!-- Bootstrap core CSS -->
         <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -206,12 +209,14 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
+                                        echo "<button onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >hier</button>";
                                         echo " herindelen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
                                         $_SESSION["Leerling_ID"] = $ID;
                                         $_SESSION["Datum"] = $row["Datum"];
+                                        $_SESSION["Sltoen_Extra"] = 1;
+                                        $_SESSION["leerling_gegevens"] = $Leerling_ID;
                                     }
                                 }
                                 else{
@@ -255,6 +260,8 @@
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
                                         $_SESSION["Leerling_ID"] = $ID;
                                         $_SESSION["Datum"] = $row["Datum"];
+                                        $_SESSION["Sltoen_Extra"] = 2;
+                                        $_SESSION["leerling_gegevens"] = $Leerling_ID;
                                     }
                                 }
                                 else{

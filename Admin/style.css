@@ -256,3 +256,8 @@ h1{
 .no_margin{
     margin:0px;
 }
+
+.redips-trash {
+    color: white;
+    background-color: SteelBlue;
+}

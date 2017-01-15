@@ -20,7 +20,7 @@ if(!isset($_SESSION["Admin"])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Docent toevoegen</title>
+    <title>Gesrek verlengen</title>
 
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -52,14 +52,14 @@ if(!isset($_SESSION["Admin"])){
         <p class="font_size">sleep de tijden in de goede volgorde.</p>
         <p> dit is de ouderavond voor:
             <b>
-            <?php
+                <?php
                 //haalt de docent gegevens op
                 $sqli_docent_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID = '".$_SESSION["Docent_ID"]."'";
                 $sqli_docent_naam_uitkomst = mysqli_query($connect, $sqli_docent_naam);
                 $docent_naam = mysqli_fetch_array($sqli_docent_naam_uitkomst);
                 echo $docent_naam["Voornaam"] . " " . $docent_naam["Achternaam"];
                 echo " op " . $_SESSION["Datum"];
-            ?>
+                ?>
             </b>
         </p>
     </div>
@@ -71,53 +71,98 @@ if(!isset($_SESSION["Admin"])){
         echo "<form action='' method='post' class='no_padding  text-center'>";
         //geeft alle opties qua leerlingen die moeten worden ingedeelt.
         echo "<div id='redips-drag'>";
-        echo "<table class='table table-condensed margin_bottom ' style='font-size: 15px' id='table1'>";
-            echo "<colgroup>";
-                echo "<col width='240'/>";
-                echo "<col width='240'/>";
-            echo "</colgroup>";
-            echo "<tr>";
-                echo "<th colspan='2' id='message' class='redips-drag t1 status_ding'>Status</th>";
-            echo "</tr>";
-            echo "<tr>";
-                echo "<td class='redips-mark desc'>";
-                    echo "<p>Begin tijd</p>";
-                echo "</td>";
-                echo "<td  class='redips-mark desc'>";
-                    echo "<p>Leerling</p>";
-                echo "</td>";
-            echo "</tr>";
+        echo "<table class='table table-condensed margin_bottom table-bordered' style='font-size: 15px' id='table1'>";
+        echo "<colgroup>";
+        echo "<col width='240'/>";
+        echo "<col width='240'/>";
+        echo "</colgroup>";
+        echo "<tr>";
+        echo "<th colspan='2' id='message' class='redips-drag t1 status_ding'>Status</th>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class='redips-mark desc'>";
+        echo "<p>Begin tijd</p>";
+        echo "</td>";
+        echo "<td  class='redips-mark desc'>";
+        echo "<p>Leerling</p>";
+        echo "</td>";
+        echo "</tr>";
         //haalt alle leerlingen op die op die dag staan.
         $sqli_gegevens = "SELECT Tijd_Slot, Datum, Begin_Tijd, Eind_Tijd, Leerling_ID FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='".$_SESSION["Docent_ID"]."' AND Datum='".$_SESSION["Datum"]."'";//ALLE SLOTEN
         $sqli_gegevens_uitkomst = mysqli_query($connect, $sqli_gegevens);
         while($row = mysqli_fetch_array($sqli_gegevens_uitkomst)){
             echo "<tr>";
-                echo "<td class='redips-mark desc'>";
-                    echo "<p>".$row['Begin_Tijd']."</p>";
-                echo "</td>";
-                echo "<td>";
-                    //geeft het tijdslot als hidden input (wordt gebruikt voor de her indeling
-                    echo "<input type='hidden' name='Tijd_Slot[]' value='".$row["Tijd_Slot"]."'>";
+            echo "<td class='redips-mark desc'>";
+            echo "<p>".$row['Begin_Tijd']."</p>";
+            echo "</td>";
+            echo "<td>";
+            //geeft het tijdslot als hidden input (wordt gebruikt voor de her indeling
+            echo "<input type='hidden' name='Tijd_Slot[]' value='".$row["Tijd_Slot"]."'>";
 
-                    //kan slecht telezen zijn. voor exstra info ga naar: Paul (244384)
-                    echo "<div id='link1' class='redips-drag t1'>";
-                        //controleerd of het leerling id 0 is, als het 0 wordt er Leeg weergegeven.
-                        if($row["Leerling_ID"] == 0){
-                            echo "beschikbaar.";
-                        }
-                        else{
-                            echo $row["Leerling_ID"];
-                        }
-                        echo "<input type='hidden' name='Leerling[]' value='".$row["Leerling_ID"]."'>";
+            //kan slecht telezen zijn. voor exstra info ga naar: Paul (244384)
+            echo "<div class='redips-drag t1'>";
+            //controleerd of het leerling id 0 is, als het 0 wordt er Leeg weergegeven.
+            if($row["Leerling_ID"] == 0){
+                echo "beschikbaar.";
+            }
+            else{
+                echo $row["Leerling_ID"];
+            }
+            echo "<input type='hidden' name='Leerling[]' value='".$row["Leerling_ID"]."'>";
 
-                    echo "</div>";
-                echo "</td>";
+            echo "</div>";
+            echo "</td>";
             echo "</tr>";
         }
+
+        //de velden die moeten worden ingedeeld.
+        if($_SESSION["Sltoen_Extra"] == 1){
+            echo "<tr>";
+            echo "<td class='redips-mark desc'>";
+            echo "<p class='text-center' title='de gegevens die hier staan zullen worden verwijdert. Dus als hier een leerling staat wordt zijn/haar afsraak verwijderd.'>WORDT VERWIJDERD!</p>";
+            echo "</td>";
+            echo "<td>";
+            echo "<div class='redips-drag t1'>";
+            echo $_SESSION["leerling_gegevens"];
+            echo "<input type='hidden' name='Leerling[]' value='".$_SESSION["leerling_gegevens"]."'>";
+            echo "</div>";
+            echo "</td>";
+            echo "</tr>";
+        }
+        else{
+            //1ste veld
+            echo "<tr>";
+            echo "<td class='redips-mark desc'>";
+            echo "<p class='text-center' title='de gegevens die hier staan zullen worden verwijdert. Dus als hier een leerling staat wordt zijn/haar afsraak verwijderd.'>WORDT VERWIJDERD!</p>";
+            echo "</td>";
+            echo "<td>";
+            echo "<div class='redips-drag t1'>";
+            echo $_SESSION["leerling_gegevens"];
+            echo "<input type='hidden' name='Leerling[]' value='".$_SESSION["leerling_gegevens"]."'>";
+            echo "</div>";
+            echo "</td>";
+            echo "</tr>";
+            //2e veld
+            echo "<tr>";
+            echo "<td class='redips-mark desc'>";
+            echo "<p class='text-center' title='de gegevens die hier staan zullen worden verwijdert. Dus als hier een leerling staat wordt zijn/haar afsraak verwijderd.'>WORDT VERWIJDERD!</p>";
+            echo "</td>";
+            echo "<td>";
+            echo "<div class='redips-drag t1'>";
+            echo $_SESSION["leerling_gegevens"];
+            echo "<input type='hidden' name='Leerling[]' value='".$_SESSION["leerling_gegevens"]."'>";
+            echo "</div>";
+            echo "</td>";
+            echo "</tr>";
+        }
+
+
         echo "</table>";
+
         echo "<input type='submit' value='submit' name='submit' class='col-md-offset-2 col-md-8 btn btn-primary'>";
         echo "</div>";
         echo "</form>";
+
         echo "<br>";
         echo "<br>";
         echo "<br>";
@@ -276,20 +321,23 @@ if(!isset($_SESSION["Admin"])){
                 if($Alle_Checks_Goed == true){
                     //past alle sloten aan.
                     for($X = 0; $X < $koekjes; $X++){
-                        $sqli_Tijd_Slot_Update = "UPDATE tijden_binnen_avond SET Leerling_ID='".$_POST["Leerling"][$X]."' WHERE Tijd_Slot='".$_POST["Tijd_Slot"][$X]."'";
-                        if(mysqli_query($connect, $sqli_Tijd_Slot_Update)){
-                            $Update_Gelukt = true;
-                        }
-                        else{
-                            $Update_Gelukt = false;
-                            echo"er is een onbekende fout opgetreden, probeer het later op nieuw, of neem contact op met de systeem beheerder.";
+                        //controleerd of de $X nog valt binnen de tij_slot array. (dit kan omdat er 1 of 2 (ligt er aan) exstra sloten kunnen staan die geen tijdslot hebben.)
+                        if(isset($_POST["Tijd_Slot"][$X])){
+                            $sqli_Tijd_Slot_Update = "UPDATE tijden_binnen_avond SET Leerling_ID='".$_POST["Leerling"][$X]."' WHERE Tijd_Slot='".$_POST["Tijd_Slot"][$X]."'";
+                            if(mysqli_query($connect, $sqli_Tijd_Slot_Update)){
+                                $Update_Gelukt = true;
+                            }
+                            else{
+                                $Update_Gelukt = false;
+                                echo"er is een onbekende fout opgetreden, probeer het later op nieuw, of neem contact op met de systeem beheerder.";
+                            }
                         }
                     }
                     //contoleerd de update is goed gegaan.
                     if(isset($Update_Gelukt)){
                         if($Update_Gelukt == true){
                             echo "<p class='text-center'>";
-                                echo "De ouderavond is succes vol opnieuw ingedeelt.";
+                            echo "De ouderavond is succes vol opnieuw ingedeelt.";
                             echo "</p>";
                         }
                     }
@@ -319,6 +367,7 @@ if(!isset($_SESSION["Admin"])){
 
 <!-- de scripte die gebruikt worden voor de sorteer funcite -->
 <script type="text/javascript" src="redips-drag-min.js"></script>
+<script type="text/javascript" src="script.js"></script>
 <script type="text/javascript">
     // after page is loaded, initialize DIV elements inside table
     window.onload = function () {
