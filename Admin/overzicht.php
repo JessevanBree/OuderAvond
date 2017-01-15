@@ -16,11 +16,11 @@
 	}
   
 
-  //sql codes ophalen voor overzicht
-  $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond 
-  JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
-  WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."'
-  ORDER BY tijden_binnen_avond.Datum"; //CONTROLEER leerlingID of dit goed is
+    //sql codes ophalen voor overzicht
+    $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond 
+    JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
+    WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."'
+    ORDER BY tijden_binnen_avond.Datum"; //CONTROLEER leerlingID of dit goed is
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,7 +63,7 @@
 			</div>			
 		</nav>		
 		<div class="hoofd-div">
-		<div class="row">
+		<div class="container-fluid">
 			<div class="col-md-10 col-md-offset-1">
 				<div class="alert alert-info alert-dismissible " role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
