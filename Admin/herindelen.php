@@ -39,6 +39,9 @@ if(isset($_GET["ID"])){
 
     <title>Docent toevoegen</title>
 
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
     <!-- Bootstrap core CSS -->
     <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -133,13 +136,11 @@ if(isset($_GET["ID"])){
         echo "</div>";
         echo "</form>";
         echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
 
         if(isset($_POST["submit"])){
-            //var_dump($_POST["Leerling"]);
-            //echo "<br>";echo "<br>";
-            //var_dump($_POST["Tijd_Slot"]);
-            //echo "<br>";echo "<br>";
-
             $koekjes = count($_POST["Leerling"]);
             //var_dump($koekjes);
             for($X = 0; $X < $koekjes; $X++){
@@ -288,12 +289,29 @@ if(isset($_GET["ID"])){
             }
 
             if(isset($Alle_Checks_Goed)){
+                //contoleerd of de check is geweest die alles goed keurt. (geen problemen gevonden.)
                 if($Alle_Checks_Goed == true){
-                    echo "test.";
+                    //past alle sloten aan.
+                    for($X = 0; $X < $koekjes; $X++){
+                        $sqli_Tijd_Slot_Update = "UPDATE tijden_binnen_avond SET Leerling_ID='".$_POST["Leerling"][$X]."' WHERE Tijd_Slot='".$_POST["Tijd_Slot"][$X]."'";
+                        if(mysqli_query($connect, $sqli_Tijd_Slot_Update)){
+                            $Update_Gelukt = true;
+                        }
+                        else{
+                            $Update_Gelukt = false;
+                            echo"er is een onbekende fout opgetreden, probeer het later op nieuw, of neem contact op met de systeem beheerder.";
+                        }
+                    }
+                    //contoleerd de update is goed gegaan.
+                    if(isset($Update_Gelukt)){
+                        if($Update_Gelukt == true){
+                            echo "<p class='text-center'>";
+                                echo "De ouderavond is succes vol opnieuw ingedeelt.";
+                            echo "</p>";
+                        }
+                    }
                 }
             }
-
-
         }
 
 

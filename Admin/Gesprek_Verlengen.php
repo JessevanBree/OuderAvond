@@ -249,8 +249,8 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
-                                        echo " herindelen.";
+                                        echo "<button onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >hier</button>";
+                                        echo " verlengen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
                                         $_SESSION["Leerling_ID"] = $ID;
@@ -259,7 +259,8 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
+                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button><br><br>";
+                                    echo "als u de leerling verplaast, hou er dan rekening mee dat u de leerling zo moet indelen dat er opties zijn om na de tijd die u gegeven heb nog tijden zijn die kunnen worden gebruikt. (het maakt niet u of er dan een andere leerling staat, deze zal dan worden verplaast. ";
                                 }
 
                             }
