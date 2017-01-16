@@ -67,7 +67,7 @@
 			<div class="col-md-10 col-md-offset-1">
 				<div class="alert alert-info alert-dismissible " role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>Uitleg</strong> Dit is de overzichtpagina. Hier staan alle gesprekken die u hebt met de leerling op de datum heeft
+					<strong>Uitleg</strong> Dit is de overzichtpagina. Hier staan alle gesprekken die u hebt met de leerling op de datum die u hebt aangegeven
 				</div>
 			</div
 		</div>
@@ -115,7 +115,7 @@
 			<?php
 		}else{
 			?>
-			<div class="alert alert-danger col-sm-11" role="alert"><strong>Let op!</strong> Geen leerling hebt zicht op deze datum ingeschreven</div>
+			<div class="alert alert-danger col-sm-11" role="alert"><strong>Let op!</strong> Geen leerlingen hebben zich op deze datum ingeschreven</div>
 			<?php
 		}
 		
