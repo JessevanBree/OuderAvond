@@ -30,6 +30,21 @@
         }
     }
 
+    //controleerd of het Docent_ID in de URL goed is.
+    if(isset($_GET["Docent_ID"])){
+        $Docent_ID = $_GET["Docent_ID"];
+        if(is_numeric($Docent_ID)){
+            //controleert of het ID wel bestaad.
+            $sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID = '$Docent_ID'";
+            $sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
+            if(!mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
+                header("Location: Gesprek_Verlengen.php");
+            }
+        }
+        else{
+            header("Location: Gesprek_Verlengen.php");
+        }
+    }
 ?>
 <html lang="en">
     <head>
@@ -37,7 +52,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Docent toevoegen</title>
+        <title>Gesprek Verlengen</title>
 
         <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
         <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -108,73 +123,108 @@
                                 //zet het leerling id in een variabel
                                 $Leerling_ID = $row["Leerling_ID"];
 
-                                //geeft het overzicht van de inschrijvings gegevens.
-                                $sqli_inschrijving = "SELECT tijden_binnen_avond.Tijd_Slot, tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Docent_ID ,docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID'";
-                                $sqli_inschrijving_uitkomst = mysqli_query($connect, $sqli_inschrijving);
-                                if(mysqli_num_rows($sqli_inschrijving_uitkomst) > 0){
-                                    $row = mysqli_fetch_array($sqli_inschrijving_uitkomst);
-                                    echo "<div class='col-md-7 text-center'>";
-                                    echo "<br>";
-                                    echo "<p class='text-center'>";
-                                    echo "de inschrijvings gegevens van: <b>" . $naam . "</b>";
-                                    echo "</p>";
-                                    echo "<table class='text-center table'>";
-                                        echo "<tr>";
+                                //de leelring kan ingeschreven staat bij 1 of meer docenten, hier volgt het menu waar je de docent kan kiezen.
+                                //contoleerd of het docent_ID al in de url staat.
+                                if(isset($Docent_ID)){
+                                    if(is_numeric($Docent_ID) && !empty($Docent_ID)){
+                                        //de docent staat in de url en is goed.
+                                        //geeft het overzicht van de inschrijvings gegevens.
+                                        $sqli_inschrijving = "SELECT tijden_binnen_avond.Tijd_Slot, tijden_binnen_avond.Datum, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd, docenten.Docent_ID ,docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Afgerond=0 AND Leerling_ID='$ID' AND docenten.Docent_ID='$Docent_ID'";
+                                        $sqli_inschrijving_uitkomst = mysqli_query($connect, $sqli_inschrijving);
+                                        if(mysqli_num_rows($sqli_inschrijving_uitkomst) > 0){
+                                            $row = mysqli_fetch_array($sqli_inschrijving_uitkomst);
+                                            echo "<div class='col-md-7 text-center'>";
+                                            echo "<br>";
+                                            echo "<p class='text-center'>";
+                                            echo "de inschrijvings gegevens van: <b>" . $naam . "</b>";
+                                            echo "</p>";
+                                            echo "<table class='text-center table'>";
+                                            echo "<tr>";
                                             echo "<td>";
-                                                echo "datum";
+                                            echo "datum";
                                             echo "</td>";
                                             echo "<td>";
-                                                echo "begin tijd";
+                                            echo "begin tijd";
                                             echo "</td>";
                                             echo "<td>";
-                                                echo "Eind tijd";
+                                            echo "Eind tijd";
                                             echo "</td>";
                                             echo "<td>";
-                                                echo "Docent";
+                                            echo "Docent";
                                             echo "</td>";
-                                        echo "</tr>";
-                                        echo "<tr>";
+                                            echo "</tr>";
+                                            echo "<tr>";
                                             echo "<td>";
-                                                echo $row["Datum"];
-                                            echo "</td>";
-                                            echo "<td>";
-                                                echo $row["Begin_Tijd"];
+                                            echo $row["Datum"];
                                             echo "</td>";
                                             echo "<td>";
-                                                echo $row["Eind_Tijd"];
+                                            echo $row["Begin_Tijd"];
                                             echo "</td>";
                                             echo "<td>";
-                                                echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+                                            echo $row["Eind_Tijd"];
                                             echo "</td>";
-                                        echo "</tr>";
-                                    echo "</table>";
-                                    echo "</div>";
+                                            echo "<td>";
+                                            echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+                                            echo "</td>";
+                                            echo "</tr>";
+                                            echo "</table>";
+                                            echo "</div>";
+                                        }
+                                        else{
+                                            echo "<div class='col-md-7 text-center'>";
+                                            echo "<br>";
+                                            echo "Deze leefling heeft zicht niet ingeschrven.";
+                                            echo "</div>";
+                                        }
+                                        //geeft het menu waar je het gesrek kan verlengen.
+                                        echo "<div class=' col-md-4 text-center'>";
+                                        echo "<p class=''>";
+                                        echo "met hoeveel minuten wilt u het gesrek verlengen voor de leerling: <br>";
+                                        echo "<b>" . $naam . "</b>";
+                                        echo "</p>";
+                                        //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
+                                        echo "<form action='' method='post' class='no_padding  text-center'>";
+                                        echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
+                                        echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
+                                        echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
+                                        echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
+                                        echo "<input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                        echo "</form>";
+                                        echo "</div>";
+                                    }
+                                    else{
+                                        //de url staat er in, maar er is iets niet goed mee,
+                                        $sqli_inschrijving_Docent = "SELECT DISTINCT tijden_binnen_avond.Docent_ID, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Leerling_ID='$Leerling_ID'";
+                                        $sqli_inschrijving_Docent_Uitkomst  = mysqli_query($connect, $sqli_inschrijving_Docent);
+                                        echo "<div class='col-md-7 text-center'>";
+                                        echo "<form action='' method='get'>";
+                                        while($row1 = mysqli_fetch_array($sqli_inschrijving_Docent_Uitkomst)){
+                                            echo "<input type='radio' name='Docent_ID' value='".$row1["Docent_ID"]."'>".strtoupper(substr($row1["Voornaam"], 0, 1)) . ". " . $row1["Achternaam"]. " ";
+                                        }
+                                        echo "<input type='hidden' name='ID' value='".$ID."'>";
+                                        echo "<br><br><input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                        echo "</form>";
+                                        echo "</div>";
+                                    }
                                 }
                                 else{
+                                    //de url staat helemaal niet in de url
+                                    $sqli_inschrijving_Docent = "SELECT DISTINCT tijden_binnen_avond.Docent_ID, docenten.Voornaam, docenten.Achternaam FROM tijden_binnen_avond JOIN docenten ON tijden_binnen_avond.Docent_ID = docenten.Docent_ID WHERE Leerling_ID='$Leerling_ID'";
+                                    $sqli_inschrijving_Docent_Uitkomst  = mysqli_query($connect, $sqli_inschrijving_Docent);
                                     echo "<div class='col-md-7 text-center'>";
-                                    echo "<br>";
-                                    echo "Deze leefling heeft zicht niet ingeschrven.";
+                                    echo "<form action='' method='get'>";
+                                    while($row1 = mysqli_fetch_array($sqli_inschrijving_Docent_Uitkomst)){
+                                        echo "<input type='radio' name='Docent_ID' value='".$row1["Docent_ID"]."'>".strtoupper(substr($row1["Voornaam"], 0, 1)) . ". " . $row1["Achternaam"]. " ";
+                                    }
+                                    echo "<input type='hidden' name='ID' value='".$ID."'>";
+                                    echo "<br><br><input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                    echo "</form>";
                                     echo "</div>";
                                 }
 
 
 
-                                //geeft het menu waar je het gesrek kan verlengen.
-                                echo "<div class=' col-md-4 text-center'>";
-                                echo "<p class=''>";
-                                echo "met hoeveel minuten wilt u het gesrek verlengen voor de leerling: <br>";
-                                echo "<b>" . $naam . "</b>";
-                                echo "</p>";
 
-                                //geeft het menu waar je kan kiezen met hoeveel minuten je het gesrek wil verlengen.
-                                echo "<form action='' method='post' class='no_padding  text-center'>";
-                                echo "<input type='radio' name='Tijd' class='' value='5'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 5){echo "checked='checked'";}} echo ">5 &nbsp;";
-                                echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
-                                echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
-                                echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
-                                echo "<input type='submit' value='submit' class='btn btn-primary'>";
-                                echo "</form>";
-                                echo "</div>";
                             }
                         ?>
                     </div>
@@ -210,7 +260,7 @@
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
                                         echo "<button onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >hier</button>";
-                                        echo " herindelen.";
+                                        echo " verlengen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
                                         $_SESSION["Leerling_ID"] = $ID;
@@ -221,7 +271,8 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button>";
+                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button><br><br>";
+                                    echo "als u de leerling verplaast, hou er dan rekening mee dat u de leerling zo moet indelen dat er opties zijn om na de tijd die u gegeven heb nog tijden zijn die kunnen worden gebruikt. (het maakt niet u of er dan een andere leerling staat, deze zal dan worden verplaast. ";
                                 }
                             }
                             elseif($_POST["Tijd"] == 15 || $_POST["Tijd"] == 20){
