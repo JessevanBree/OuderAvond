@@ -56,11 +56,11 @@
 				}
 			}
 			else{
-				echo "de nieuwen wachtwoorden komen niet overeen.";
+				echo "<p class='text-center'>de nieuwen wachtwoorden komen niet overeen.</p>";
 			}
 		}
 		else{
-			echo "onjuiste gebruikers naam of wachtwoord";
+			echo "<p class='text-center'>onjuiste gebruikers naam of wachtwoord</p>";
 		}
 		
 	}

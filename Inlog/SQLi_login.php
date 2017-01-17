@@ -89,7 +89,7 @@
 						header("location: ../Index.php");
 					}
 					else{
-						echo "onjuiste gebruikers naam of wachtwoord";
+						echo "<p class='text-center'>onjuiste gebruikers naam of wachtwoord</p>";
 					}
 				}
 				
