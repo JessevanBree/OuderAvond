@@ -159,7 +159,7 @@ if(!isset($_SESSION["Admin"])){
 
         echo "</table>";
 
-        echo "<input type='submit' value='submit' name='submit' class='col-md-offset-2 col-md-8 btn btn-primary'>";
+        echo "<button type='submit'  name='submit' class=' col-md-8 btn btn-style btn-block'><span class=\"glyphicon glyphicon-ok\"></span> Bevestigen</button>";
         echo "</div>";
         echo "</form>";
 
