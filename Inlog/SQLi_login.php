@@ -15,7 +15,88 @@
 				//zorgt er voor dat de speciale teken uit de ingevoerde waarde wordt gehaald.
 				$username = mysqli_real_escape_string($connect, $username);
 				$password = mysqli_real_escape_string($connect, $password);
-				
+
+				//schrijft de querry's die gebruikt gaan worden voor het ophalen van de
+				$sqli_Leerling_inlog = "SELECT Leerling_ID, Salt FROM leerlingen WHERE Leerling_ID = '$username'";
+				$sqli_docent_inlog = "SELECT Docent_ID, Salt FROM docenten WHERE Afkorting = '$username'";
+				$sqli_Leerling_inlog_uitkomst = mysqli_query($connect, $sqli_Leerling_inlog);
+				$sqli_docent_inlog_uitkomt = mysqli_query($connect, $sqli_docent_inlog);
+
+				if(mysqli_num_rows($sqli_Leerling_inlog_uitkomst) == 1){
+					$row = mysqli_fetch_array($sqli_Leerling_inlog_uitkomst);
+					//de inlognaam is van een leerling
+					//encrypt het password
+					$password = $password . $row["Salt"];
+
+					$password = encryptie($password);
+
+					//controleerd je inlog gegevens
+					$sqli_eerste_inlog_met_eerste_inlog = "SELECT Leerling_ID FROM leerlingen WHERE Leerling_ID='$username' AND Wachtwoord='$password' AND Eerste_Inlog='0'";
+					$sqli_eerste_inlog = "SELECT Leerling_ID FROM leerlingen WHERE Leerling_ID='$username' AND Wachtwoord='$password'";
+					$sqli_eerste_inlog_met_eerste_inlog_uitkomst = mysqli_query($connect, $sqli_eerste_inlog_met_eerste_inlog);
+					$sqli_eerste_inlog_uitkomst = mysqli_query($connect, $sqli_eerste_inlog);
+
+					if(mysqli_num_rows($sqli_eerste_inlog_met_eerste_inlog_uitkomst) == 1){
+						//je bent voor het eerst ingelogt, je wordt doorverzwezen.
+						header("location:wachtwoord_wijzigen.php");
+					}
+					elseif(mysqli_num_rows($sqli_eerste_inlog_uitkomst)== 1){
+						//zorgt er voor dat de andere pagina's kunnen controleren of er ingelogt is.
+						$_SESSION["ingelogt"] = true;
+						//zet je inlognaam in een variablen.
+						$_SESSION["Inlog_ID"] = $username;
+						//je wordt door gestuurd naar de hoofd pagina.
+						header("location: ../Index.php");
+					}
+					else{
+						//de inloggegevens zijn niet correct
+						echo "<p class='text-center'>onjuiste gebruikers naam of wachtwoord</p>";
+					}
+				}
+				elseif(mysqli_num_rows($sqli_docent_inlog_uitkomt) == 1){
+					$row = mysqli_fetch_array($sqli_docent_inlog_uitkomt);
+					//de inlognaam is van een docent
+					//encrypt het password
+					$password = $password . $row["Salt"];
+
+					$password = encryptie($password);
+
+					//controleerd je inlog gegevens
+					$sqli_eerste_inlog_met_eerste_inlog = "SELECT Docent_ID FROM docenten WHERE Afkorting='$username' AND Wachtwoord='$password' AND Eerste_Inlog='0'";
+					$sqli_eerste_inlog = "SELECT Docent_ID FROM docenten WHERE Afkorting='$username' AND Wachtwoord='$password'";
+					$sqli_eerste_inlog_met_eerste_inlog_uitkomst = mysqli_query($connect, $sqli_eerste_inlog_met_eerste_inlog);
+					$sqli_eerste_inlog_uitkomst = mysqli_query($connect, $sqli_eerste_inlog);
+
+					if(mysqli_num_rows($sqli_eerste_inlog_met_eerste_inlog_uitkomst) == 1){
+						//je bent voor het eerst ingelogt, je wordt doorverzwezen.
+						header("location:wachtwoord_wijzigen.php");
+					}
+					elseif(mysqli_num_rows($sqli_eerste_inlog_uitkomst) == 1){
+						//zorgt er voor dat de andere pagina's kunnen controleren of er ingelogt is.
+						$_SESSION["ingelogt"] = true;
+						//zorgt er voor dat de gebruiker wordt gezien als admin
+						//zet je inlognaam in een variablen.
+						$_SESSION["Admin"] = true;
+						$_SESSION["Inlog_ID"] = $username;
+						//je wordt door gestuurd naar de hoofd pagina.
+						header("location: ../Index.php");
+					}
+					else{
+						//de inloggegevens zijn niet correct
+						echo "<p class='text-center'>onjuiste gebruikers naam of wachtwoord</p>";
+					}
+				}
+				else{
+					//de inlognaam is niet bekent
+					echo "<p class='text-center'>onjuiste gebruikers naam of wachtwoord</p>";
+					//echo "Test";
+					//echo mysqli_num_rows($sqli_docent_inlog_uitkomt);
+				}
+
+
+
+				/*
+
 				//controleerdt of er voor de eerste keer wordt ingelogt(leerlingen)
 				$sqli = "SELECT Leerling_ID, Wachtwoord, Salt FROM leerlingen WHERE Leerling_ID='$username' AND Wachtwoord='$password' AND eerste_inlog=1";
 				$uitkomst = mysqli_query($connect, $sqli);
@@ -93,7 +174,7 @@
 					}
 				}
 				
-				
+				*/
 				
 				
 				
