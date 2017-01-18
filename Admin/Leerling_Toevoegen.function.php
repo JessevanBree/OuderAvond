@@ -3,6 +3,7 @@
 	function Leerling_Toevoegen($Leerling_Nummer, $Voornaam, $Voorvoegsel, $Achternaam, $Relatie_tot_deelnemer, $Begindatum, $Einddatum, $Plaatsing, $Tijdelijk_Wachtwoord){
 		//haalt de nodige bestanden op
 		require("../database.php");
+        require_once("../Inlog/encryptie.php");
 		
 		//beveiligen tegen SQL injection en scripting
 
@@ -25,6 +26,13 @@
         $Einddatum = mysqli_real_escape_string($connect, $Einddatum);
         $Plaatsing = mysqli_real_escape_string($connect, $Plaatsing);
 		$Tijdelijk_Wachtwoord = mysqli_real_escape_string($connect, $Tijdelijk_Wachtwoord);
+
+        //maakt de salt
+        $Salt = gen_salt();
+        //voegt de salt toe aan het wachtword.
+        $Wachtwoord = $Tijdelijk_Wachtwoord . $Salt;
+        //encypt het wachtwoord
+        $Wachtwoord = encryptie($Wachtwoord);
 
 		//bereid de querry voor de de gegevens in de database zetten
 		$sqli_gegevensinvoer = "INSERT INTO leerlingen 
@@ -51,8 +59,8 @@
 								'$Begindatum',
 								'$Einddatum',
 								'$Plaatsing',
-								'$Tijdelijk_Wachtwoord',
-								'0',
+								'$Wachtwoord',
+								'$Salt',
 								'0'
 							)";
 		//var_dump($sqli_gegevensinvoer);
@@ -73,6 +81,7 @@
 	function csv_import(){
 		//haalt de nodige bestanden op
 		require("../database.php");
+        require_once("../Inlog/encryptie.php");
 		//$connect = mysqli_connect("localhost", "root", "usbw", "ouder_avond");
 		
 		//maakt een waarde aan voor te kijken hoeveel er niet zijn toegevoegd.
@@ -93,10 +102,21 @@
 				//var_dump($sqli_inlog_check_uitkomst);
 				if(mysqli_num_rows($sqli_inlog_check_uitkomst) != 1){
                     //maatk het tijdelijke wachtwoord aan.
-                    $Wachtwoord = $data[1] . $data[2] . $data[3];
-                    //maakt de salt en de eerste inlog aan.
-                    $Salt = 0;
-                    $Eerste_Innlog = 1;
+                    if(!empty($data[2])){
+                        $Wachtwoord = $data[1] . " " . $data[2] . " " . $data[3];
+                    }
+                    else{
+                        $Wachtwoord = $data[1] . " " . $data[3];
+                    }
+                    //maakt de salt
+                    $Salt = gen_salt();
+                    //voegt de salt toe aan het wachtword.
+                    $Wachtwoord = $Wachtwoord . $Salt;
+                    //encypt het wachtwoord
+                    $Wachtwoord = encryptie($Wachtwoord);
+
+                    //zet de variabel $Eerste_Innlog, dit is voor het systeem om te controleren of de leerling / docent voor het eerst inlogt.
+                    $Eerste_Innlog = 0;
 
 					//maakt de querry
 					$sqli_gegevensinvoer = "INSERT INTO leerlingen 

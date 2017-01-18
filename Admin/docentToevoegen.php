@@ -84,7 +84,7 @@
                 if($row["Afkorting"] != $_POST['Afkorting']) {
                     if (isset($_POST['Voornaam']) && ($_POST['Achternaam']) && ($_POST['Afkorting']) && ($_POST['Wachtwoord'])) {
                         $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Wachtwoord, Salt, Eerste_inlog) 
-                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Wachtwoord'] . "', '0', '1');";
+                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Wachtwoord'] . "', '0', '0');";
                         if (mysqli_query($connect, $ToevoegenQ)) {
                             echo "<div class='alert alert-success col-md-offset-1 col-md-3 text-center' role='alert'>Gegevens ingevoegd</div>";
                         }
