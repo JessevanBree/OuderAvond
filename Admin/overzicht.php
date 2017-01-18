@@ -127,12 +127,18 @@
 		$result1 = mysqli_query($connect,$sqlGegevens);
 		//Draait zolang er records zijn per datum
         while($row = mysqli_fetch_assoc($result1)){
-			
+			//zet de naam goed neer
+			if(!empty($row["Voorvoegsel"])){
+				$naam = $row['Voornaam'] . "&nbsp" . $row["Voorvoegsel"] .  "&nbsp"  . $row['Achternaam'];
+			}
+			else{
+				$naam = $row['Voornaam'] . "&nbsp" . $row['Achternaam'];
+			}
           ?>			
 		
 						<tr>
 							<td><?php echo $row['Leerling_ID']; ?></td>
-							<td><?php echo $row['Achternaam'] ." ". $row['Voorvoegsel'] .", ". $row['Voornaam']; ?></td>
+							<td><?php echo $naam; ?></td>
 							<td><?php echo $row['Begin_Tijd'] ." / ".$row['Eind_Tijd'] ; ?></td>
 						</tr>
 							
