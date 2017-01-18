@@ -289,7 +289,7 @@ if(!isset($_SESSION["Admin"])){
                     if(isset($Update_Gelukt)){
                         if($Update_Gelukt == true){
                             echo "<p class='text-center'>";
-                                echo "De ouderavond is succes vol opnieuw ingedeelt.";
+                                echo "het gesprek is succesvol verlengt.";
                             echo "</p>";
                         }
                     }
