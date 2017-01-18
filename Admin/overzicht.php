@@ -16,22 +16,22 @@
 	}
   
 
-    //sql codes ophalen voor overzicht
-    $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond 
-    JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
-    WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."'
-    ORDER BY tijden_binnen_avond.Datum"; //CONTROLEER leerlingID of dit goed is
+  //sql codes ophalen voor overzicht
+  $sqlDatums = "SELECT DISTINCT(tijden_binnen_avond.Datum) FROM tijden_binnen_avond 
+  JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
+  WHERE docenten.Afkorting = '".$_SESSION["Inlog_ID"]."'
+  ORDER BY tijden_binnen_avond.Datum"; //CONTROLEER leerlingID of dit goed is
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+		<link rel="icon" href="../favicon.ico" type="image/x-icon">
 		<title>Overzicht</title><!--Website titel -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-		<link rel="icon" href="../favicon.ico" type="image/x-icon">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 		<!-- Bootstrap core CSS -->
@@ -63,23 +63,24 @@
 			</div>			
 		</nav>		
 		<div class="hoofd-div">
-		<div class="container-fluid">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="alert alert-info alert-dismissible " role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>Uitleg</strong> Dit is de overzichtpagina. Hier staan alle gesprekken die u hebt met de leerling op de datum die u hebt aangegeven
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<div class="alert alert-info alert-dismissible " role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>Uitleg</strong> Dit is de overzichtpagina. Hier staan alle gesprekken die u heeft met de leerlingen die op een bepaalde datum zijn ingeschreven.
+						</div>
+					</div>
 				</div>
-			</div
-		</div>
 		<?php
 	//Query uitvoeren
     $result = mysqli_query($connect,$sqlDatums);
-
+	
 	//Dit draait aan het aantal Datums wat er zijn
     while($row = mysqli_fetch_array($result)){
+      
 
-
-
+      
       ?>
       <div class="col-md-6">
         <div class="text-center">
@@ -89,7 +90,7 @@
 
         <?php
 		//Alle gegevens van de leerlingen + tijd
-        $sqlGegevens = "SELECT leerlingen.Achternaam, leerlingen.Voornaam, tijden_binnen_avond.Leerling_ID, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd 
+        $sqlGegevens = "SELECT leerlingen.Achternaam, leerlingen.Voornaam, leerlingen.Voorvoegsel, tijden_binnen_avond.Leerling_ID, tijden_binnen_avond.Begin_Tijd, tijden_binnen_avond.Eind_Tijd 
 						FROM tijden_binnen_avond 
 						JOIN docenten ON tijden_binnen_avond.Docent_ID=docenten.Docent_ID 
 						JOIN leerlingen ON tijden_binnen_avond.Leerling_ID = leerlingen.Leerling_ID 
@@ -115,7 +116,7 @@
 			<?php
 		}else{
 			?>
-			<div class="alert alert-danger col-sm-11" role="alert"><strong>Let op!</strong> Geen leerlingen hebben zich op deze datum ingeschreven</div>
+			<div class="alert alert-danger col-sm-11" role="alert"><strong>Let op!</strong> Geen leerling heeft zich op deze datum ingeschreven</div>
 			<?php
 		}
 		
@@ -131,7 +132,7 @@
 		
 						<tr>
 							<td><?php echo $row['Leerling_ID']; ?></td>
-							<td><?php echo $row['Achternaam'] .", ". $row['Voornaam']; ?></td>
+							<td><?php echo $row['Achternaam'] ." ". $row['Voorvoegsel'] .", ". $row['Voornaam']; ?></td>
 							<td><?php echo $row['Begin_Tijd'] ." / ".$row['Eind_Tijd'] ; ?></td>
 						</tr>
 							
@@ -147,7 +148,7 @@
     }
     ?>
 			
-				
+			</div>	
 		</div> <!--Einde hoofd container -->		
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script src="../bootstrap/js/ie10-viewport-bug-workaround.js"></script>
