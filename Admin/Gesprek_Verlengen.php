@@ -188,7 +188,7 @@
                                         echo "<input type='radio' name='Tijd' class='' value='10'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 10){echo "checked='checked'";}} echo ">10 &nbsp;";
                                         echo "<input type='radio' name='Tijd' class='' value='15'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 15){echo "checked='checked'";}} echo ">15 &nbsp;";
                                         echo "<input type='radio' name='Tijd' class='' value='20'";if(isset($_POST["Tijd"])){if($_POST["Tijd"] == 20){echo "checked='checked'";}} echo ">20 &nbsp;<br><br>";
-                                        echo "<input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                        echo "<button type='submit' class='btn btn-style'><span class=\"glyphicon glyphicon-ok\"></span> Bevestig</button>";
                                         echo "</form>";
                                         echo "</div>";
                                     }
@@ -202,7 +202,7 @@
                                             echo "<input type='radio' name='Docent_ID' value='".$row1["Docent_ID"]."'>".strtoupper(substr($row1["Voornaam"], 0, 1)) . ". " . $row1["Achternaam"]. " ";
                                         }
                                         echo "<input type='hidden' name='ID' value='".$ID."'>";
-                                        echo "<br><br><input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                        echo "<br><br><button type='submit' class='btn btn-style'><span class=\"glyphicon glyphicon-ok\"></span> Bevestig</button>";
                                         echo "</form>";
                                         echo "</div>";
                                     }
@@ -217,7 +217,7 @@
                                         echo "<input type='radio' name='Docent_ID' value='".$row1["Docent_ID"]."'>".strtoupper(substr($row1["Voornaam"], 0, 1)) . ". " . $row1["Achternaam"]. " ";
                                     }
                                     echo "<input type='hidden' name='ID' value='".$ID."'>";
-                                    echo "<br><br><input type='submit' value='Bevestigen' class='btn btn-primary'>";
+                                    echo "<br><br><button type='submit' class='btn btn-style'><span class=\"glyphicon glyphicon-ok\"></span> Bevestig</button>";
                                     echo "</form>";
                                     echo "</div>";
                                 }
@@ -259,7 +259,7 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >hier</button>";
+                                        echo "<button class='btn btn-style2' onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >Hier</button>";
                                         echo " verlengen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
@@ -271,7 +271,7 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button><br><br>";
+                                    echo "<button class='btn btn-style2' onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >Hier</button><br><br>";
                                     echo "als u de leerling verplaast, hou er dan rekening mee dat u de leerling zo moet indelen dat er opties zijn om na de tijd die u gegeven heb nog tijden zijn die kunnen worden gebruikt. (het maakt niet u of er dan een andere leerling staat, deze zal dan worden verplaast. ";
 
                                     $_SESSION["Docent_ID"] = $row["Docent_ID"];
@@ -310,7 +310,7 @@
                                     else{
                                         //het opvolgende slot is niet vrij. de sloten indeling moet worden aangepast.
                                         echo "de tijd met wat u het gesrek wil verlengen is bezet, u kunt de gesreken ";
-                                        echo "<button onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >hier</button>";
+                                        echo "<button class='btn btn-style2' onmousedown='PopupCenter(`verlengen.php`, `verplaatsen`)' >Hier</button>";
                                         echo " verlengen.";
 
                                         $_SESSION["Docent_ID"] = $row["Docent_ID"];
@@ -322,7 +322,7 @@
                                 }
                                 else{
                                     echo "het gesrek met de leerling kan niet op de huidige tijd worden verlengt, wilt u de leerling naar een andere dag of tijd verplaatsen klik dan ";
-                                    echo "<button onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >hier</button><br><br>";
+                                    echo "<button class='btn btn-style2' onmousedown='PopupCenter(`herindelen.php`, `verplaatsen`)' >Hier</button><br><br>";
                                     echo "als u de leerling verplaast, hou er dan rekening mee dat u de leerling zo moet indelen dat er opties zijn om na de tijd die u gegeven heb nog tijden zijn die kunnen worden gebruikt. (het maakt niet u of er dan een andere leerling staat, deze zal dan worden verplaast. ";
 
                                     $_SESSION["Docent_ID"] = $row["Docent_ID"];
