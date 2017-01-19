@@ -101,7 +101,6 @@ label {
     font-weight: 500;
 }
 .btn-style{
-	margin-top: 15px;
 	background-color: #115f5d;
 	color: #fff;
 }
@@ -113,6 +112,17 @@ label {
 .btn-style:hover{
 	color: #fff;
 	background-color:#00aa8e;
+}
+
+.btn-style2{
+    background-color: #115f5d;
+    color: #fff;
+    margin-top: -2px;
+}
+
+.btn-style2:hover{
+    color: #fff;
+    background-color:#00aa8e;
 }
 
 .footer{
