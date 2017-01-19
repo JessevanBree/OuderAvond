@@ -19,14 +19,20 @@ require_once("inschrijven.function.php");
                         echo "<tr>";
                             echo "<th>Dag</th>";
                             echo "<th>Datum</th>";
-                            echo "<th>Tijd</th>";
+                            echo "<th>Bechikbaarheid</th>";
                         echo "</tr>";
-                        //vraagt de gegevens van de docent op.
-                        $sqli_Sloten = "SELECT Datum, Begin_Tijd, Leerling_ID FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
-                        $sqli_Sloten_Uitkomst = mysqli_query($connect, $sqli_Sloten);
-                        //een while loop die alle sloten van de docent weergeeft.
-                        while($row1 = mysqli_fetch_array($sqli_Sloten_Uitkomst)){
-                            if($row1["Leerling_ID"] == 0){
+                        //vraagt de datum op en later het totaal aantal sloten voor die dag.
+                        $Proggresbar = "SELECT Datum FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
+                        $Proggresbar_Uitvoer = mysqli_query($connect, $Proggresbar);
+                        $rowcount = mysqli_num_rows($Proggresbar_Uitvoer);
+
+                        //vraagt de datum op en later het totaal aantal sloten voor die dag.
+                        $Proggresbar2 = "SELECT Afgerond FROM tijden_binnen_avond WHERE Afgerond=1 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
+                        $Proggresbar2_Uitvoer = mysqli_query($connect, $Proggresbar);
+                        $rowcount2 = mysqli_num_rows($Proggresbar2_Uitvoer);
+                        echo $rowcount;
+                        echo $rowcount2;
+                            $row1 = mysqli_fetch_array($Proggresbar_Uitvoer);
                                 echo "<tr class='success'>";
                                     echo "<td>";
                                         echo date("l", strtotime($row1["Datum"]));
@@ -35,25 +41,13 @@ require_once("inschrijven.function.php");
                                         echo $row1["Datum"];
                                     echo "</td>";
                                     echo "<td>";
-                                        echo $row1["Begin_Tijd"];
+                                        ?>
+                                            <div style="background-color:#00694b;color:#ffffff; width:<?PHP echo ($rowcount2/$rowcount)*100; ?>%">
+                                                <?PHP echo floor(($rowcount2/$rowcount)*100); ?>%
+                                            </div>
+                                        <?php
                                     echo "</td>";
                                 echo "</tr>";
-                            }
-                            else{
-                                echo "<tr class='warning'>";
-                                    echo "<td>";
-                                        echo date("l", strtotime($row1["Datum"]));
-                                    echo "</td>";
-                                    echo "<td>";
-                                        echo $row1["Datum"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                        echo $row1["Begin_Tijd"];
-                                    echo "</td>";
-                                echo "</tr>";
-                            }
-
-                        }
                     echo "</table>";
                 echo  "</div>";
             }
