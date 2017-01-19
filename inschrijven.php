@@ -102,7 +102,7 @@
 							$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
 							//var_dump($row);
 							echo "<div class='col-md-12'>";
-							echo "<p class='text-center text-style'>hier zijn uw verlopige inschrijvings gegevens.</p>";
+							echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
 								while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
 									echo "<br>";
 									echo "<br>";
@@ -133,32 +133,34 @@
 								//geeft het overzicht van waar je nu ben ingeschreven.
 								$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
 								$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
-								echo "<div class='col-md-12'>";
-								echo "<p class='text-center text-style'>hier zijn uw verlopige inschrijvings gegevens.</p>";
-								while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
-									echo "<br>";
-									//echo de datum die is ingeplant
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de Datum: <br>";
-									echo $row["Datum"];
+								if(mysqli_num_rows($sqli_select_gegevens_inschrijving_uitkomst) >= 1){
+									echo "<div class='col-md-12'>";
+									echo "<p class='text-center text-style'>hier zijn uw verlopige inschrijvings gegevens.</p>";
+									while ($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)) {
+										echo "<br>";
+										//echo de datum die is ingeplant
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de Datum: <br>";
+										echo $row["Datum"];
+										echo "</div>";
+										//echo de tijd waarom je verwacht wordt.
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de Tijd: <br>";
+										echo $row["Begin_tijd"];
+										echo "</div>";
+										//echo de docent
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de docent: <br>";
+										echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+										echo "</div>";
+										echo "<br>";
+										echo "<br>";
+									}
 									echo "</div>";
-									//echo de tijd waarom je verwacht wordt.
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de Tijd: <br>";
-									echo $row["Begin_tijd"];
-									echo "</div>";
-									//echo de docent
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de docent: <br>";
-									echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
-									echo "</div>";
-									echo "<br>";echo "<br>";
+									//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
+									echo "<div class='spacer col-md-12'></div>";
 								}
-								echo "</div>";
-								//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
-								echo "<div class='spacer col-md-12'></div>";
-
-								echo "<p class='text-center text-style'>schrijf u hier in voor een andere docent.</p>";
+								echo "<p class='text-center text-style'>kies een datum en een moment van de avond.</p>";
 								//geeft het menue voor het opgeven van waarneer je komt.
 								echo "<form action='' method='get' class='form-signin text-center'>";
 								//maakt een ontzichtbare input om het gekozen docent id bewaardt te laten
@@ -182,8 +184,8 @@
 								echo "<option value='begin'> begin van de avond</option>";
 								echo "<option value='eind'> eind van de avond</option>";
 								echo "</select>";
-
-								echo "<input type='submit' value='submit'>";
+								echo "&nbsp;&nbsp;";
+								echo "<input type='submit' class='btn btn-style' value='Bevestigen'>";
 								echo "</form>";
 
 								//controleert of de post gebeurt is
@@ -192,7 +194,7 @@
 										$post_check = true;
 									}
 									else{
-										echo "u moet een datum selecteren.";
+										echo "<p class='text-center'><br>u moet een datum selecteren.</p>";
 									}
 								}
 							}
@@ -204,7 +206,7 @@
 								echo "<p>";
 								echo "</div>";
 								//zet alle docenten neer als optie
-								$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."')";
+								$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0')";
 								$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
 								$i = -1;
 								echo "<table class='col-md-12'><tr>";
@@ -224,6 +226,43 @@
 									}
 								}
 								echo "</tr></table>";
+
+								//controleert of de leerling zich al heeft ingeschreven, anders krijg je dit voerzicht niet
+								$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";
+								if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) >= 1){
+									$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
+									$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
+									//var_dump($row);
+
+									//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
+									echo "<div class='spacer col-md-12'></div>";
+
+									echo "<div class='col-md-12'>";
+									echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
+									while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
+										echo "<br>";
+
+										//echo de datum die is ingeplant
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de Datum: <br>";
+										echo $row["Datum"];
+										echo "</div>";
+										//echo de tijd waarom je verwacht wordt.
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de Tijd: <br>";
+										echo $row["Begin_tijd"];
+										echo "</div>";
+										//echo de docent
+										echo "<div class='col-md-2 col-md-offset-1'>";
+										echo "de docent: <br>";
+										echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+										echo "</div>";
+
+										echo "<br>";
+										echo "<br>";
+									}
+									echo "</div>";
+								}
 							}
 						}
 					?>		
@@ -234,7 +273,7 @@
 				<?php
 					if(isset($post_check)){
 						if($post_check == true){
-							echo "<div class='col-md-offset-2 col-md-8 well'>";
+							echo "<div class=' col-md-8 well'>";
 								echo "<div class='col-md-12' >";
 									//echo de datum die is op gegeven in de post
 									echo "<div class='col-md-2 col-md-offset-1'>";
@@ -270,7 +309,7 @@
 									//dit doe ik doormiddel van een hidden form met hidden imput
 									echo "<form action='' method='post' class='form-signin text-center col-md-2 '>";
 										echo "<input type='hidden' value='check' name='check'>";
-										echo "<input type='submit' value='submit'>";
+										echo "<input type='submit' class='btn btn-style' value='Bevestigen'>";
 									echo "</form>";
 								echo "</div>";
 
@@ -290,6 +329,7 @@
 											unset($_SESSION["datum"]);
 											unset($_SESSION["avond_deel"]);
 											unset($_SESSION["docent"]);
+											//unset($post_check);
 										}
 										else{
 											echo "er is een onbekende fout opgetreden, probeer het op nieuw of neem contact op met de systeem beheerder. ";
