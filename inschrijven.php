@@ -69,17 +69,7 @@
 						$sqli_leerling_naam = "SELECT Voornaam, Achternaam FROM docenten WHERE Docent_ID = '$ID'";
 						$sqli_leerling_naam_uitkomst = mysqli_query($connect, $sqli_leerling_naam);
 						if(mysqli_num_rows($sqli_leerling_naam_uitkomst) == 1){
-							//controleerd of je niet al ingeschreven ben, dit moet omdat je via een rederict komt waarbij er de from gegevens (get) nog in de url staan. als je al ingeschrevenben willen we niet de mogelijke uren van de docent zien.
-							$sqli_select_inschrijving = "SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0";
-							if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 0){
-								//de resultaten uit het controleren of je al ben ingeschreven zijn 0, dus je bent niet ingeschreven.
-								//laat alle sloten zien van de geselecteerde docent.
 								require("sloten.php");
-							}
-							else{
-								//het blijkt dat je al ben ingeschreven, dus de beschickbaare sloten worden niet laten zien.
-								echo "<div class='col-md-2'></div>";
-							}
 						}
 						else{
 							echo "<div class='col-md-2'></div>";
@@ -93,154 +83,20 @@
 					echo "<div class='col-md-2'></div>";
 				}
 			?>
-			<div class="col-md-8 well">
-					<?php
-						//controleert of de leerling zich al heeft ingeschreven. 
-						$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";
-						if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 3){
-							$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
-							$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
-							//var_dump($row);
-							echo "<div class='col-md-12'>";
-							echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
-								while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
-									echo "<br>";
-									echo "<br>";
-
-									//echo de datum die is ingeplant
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de Datum: <br>";
-									echo $row["Datum"];
-									echo "</div>";
-									//echo de tijd waarom je verwacht wordt.
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de Tijd: <br>";
-									echo $row["Begin_tijd"];
-									echo "</div>";
-									//echo de docent
-									echo "<div class='col-md-2 col-md-offset-1'>";
-									echo "de docent: <br>";
-									echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
-									echo "</div>";
-
-									echo "<br>";
-									echo "<br>";
-								}
-							echo "</div>";
-						}
-						else{
-							if(isset($ID)){
-								//geeft het overzicht van waar je nu ben ingeschreven.
+			<div class="col-md-8">
+				<div class="col-md-12 well">
+						<?php
+							//controleert of de leerling zich al heeft ingeschreven.
+							$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";
+							if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) == 3){
 								$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
 								$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
-								if(mysqli_num_rows($sqli_select_gegevens_inschrijving_uitkomst) >= 1){
-									echo "<div class='col-md-12'>";
-									echo "<p class='text-center text-style'>hier zijn uw verlopige inschrijvings gegevens.</p>";
-									while ($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)) {
-										echo "<br>";
-										//echo de datum die is ingeplant
-										echo "<div class='col-md-2 col-md-offset-1'>";
-										echo "de Datum: <br>";
-										echo $row["Datum"];
-										echo "</div>";
-										//echo de tijd waarom je verwacht wordt.
-										echo "<div class='col-md-2 col-md-offset-1'>";
-										echo "de Tijd: <br>";
-										echo $row["Begin_tijd"];
-										echo "</div>";
-										//echo de docent
-										echo "<div class='col-md-2 col-md-offset-1'>";
-										echo "de docent: <br>";
-										echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
-										echo "</div>";
-										echo "<br>";
-										echo "<br>";
-									}
-									echo "</div>";
-									//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
-									echo "<div class='spacer col-md-12'></div>";
-								}
-								echo "<p class='text-center text-style'>kies een datum en een moment van de avond.</p>";
-								//geeft het menue voor het opgeven van waarneer je komt.
-								echo "<form action='' method='get' class='form-signin text-center'>";
-								//maakt een ontzichtbare input om het gekozen docent id bewaardt te laten
-								echo "<input type='hidden' name='ID' value='".$ID."'>";
-
-								echo " kies een datum ";
-								echo "<select name='Datum' required>";
-								//maatk een querry om alledatums op te halen
-								$sqli_datums = "SELECT Datum FROM tijden_binnen_avond WHERE afgerond='0' AND Docent_ID='$ID' GROUP BY Datum";
-								$sqli_datums_uitkomst = mysqli_query($connect, $sqli_datums);
-
-								echo "<option value='0'></option>";
-
-								while($row = mysqli_fetch_array($sqli_datums_uitkomst)){
-									echo "<option value='" . $row["Datum"] . "'>" . $row["Datum"] . "</option>";
-								}
-								echo "</select>";
-
-								echo " kies een deel van de avond ";
-								echo "<select name='avond_deel' required>";
-								echo "<option value='begin'> begin van de avond</option>";
-								echo "<option value='eind'> eind van de avond</option>";
-								echo "</select>";
-								echo "&nbsp;&nbsp;";
-								echo "<input type='submit' class='btn btn-style' value='Bevestigen'>";
-								echo "</form>";
-
-								//controleert of de post gebeurt is
-								if(isset($_GET["Datum"]) && isset($_GET["avond_deel"]) && isset($ID)){
-									if($_GET["Datum"] != 0) {
-										$post_check = true;
-									}
-									else{
-										echo "<p class='text-center'><br>u moet een datum selecteren.</p>";
-									}
-								}
-							}
-							else{
-								//hier de docent selecteren.
-								echo "<div class='text-center'>";
-								echo "<p>";
-								echo "Kies de docent waarmee je een 10 minuten gesprek wil hebben";
-								echo "<p>";
-								echo "</div>";
-								//zet alle docenten neer als optie
-								$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0')";
-								$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
-								$i = -1;
-								echo "<table class='col-md-12'><tr>";
-								while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
-									$i++;
-									if($i<=2){
-										echo "<td>";
-										echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
-										echo "</td>";
-									}
-									else{
-										echo "</tr><tr>";
-										echo "<td>";
-										echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
-										echo "</td>";
-										$i = 0;
-									}
-								}
-								echo "</tr></table>";
-
-								//controleert of de leerling zich al heeft ingeschreven, anders krijg je dit voerzicht niet
-								$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";
-								if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) >= 1){
-									$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
-									$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
-									//var_dump($row);
-
-									//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
-									echo "<div class='spacer col-md-12'></div>";
-
-									echo "<div class='col-md-12'>";
-									echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
+								//var_dump($row);
+								echo "<div class='col-md-12'>";
+								echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
 									while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
 										echo "<br>";
+										echo "<br>";
 
 										//echo de datum die is ingeplant
 										echo "<div class='col-md-2 col-md-offset-1'>";
@@ -261,19 +117,151 @@
 										echo "<br>";
 										echo "<br>";
 									}
+								echo "</div>";
+							}
+							else{
+								if(isset($ID)){
+									//geeft het overzicht van waar je nu ben ingeschreven.
+									$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
+									$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
+									if(mysqli_num_rows($sqli_select_gegevens_inschrijving_uitkomst) >= 1){
+										echo "<div class='col-md-12'>";
+										echo "<p class='text-center text-style'>hier zijn uw verlopige inschrijvings gegevens.</p>";
+										while ($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)) {
+											echo "<br>";
+											//echo de datum die is ingeplant
+											echo "<div class='col-md-2 col-md-offset-2'>";
+											echo "de Datum: <br>";
+											echo $row["Datum"];
+											echo "</div>";
+											//echo de tijd waarom je verwacht wordt.
+											echo "<div class='col-md-2 col-md-offset-1'>";
+											echo "de Tijd: <br>";
+											echo $row["Begin_tijd"];
+											echo "</div>";
+											//echo de docent
+											echo "<div class='col-md-2 col-md-offset-1'>";
+											echo "de docent: <br>";
+											echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+											echo "</div>";
+											echo "<br>";
+											echo "<br>";
+										}
+										echo "</div>";
+										//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
+										echo "<div class='spacer col-md-12'></div>";
+									}
+									echo "<p class='text-center text-style'>kies een datum en een moment van de avond.</p>";
+									//geeft het menue voor het opgeven van waarneer je komt.
+									echo "<form action='' method='get' class='form-signin text-center'>";
+									//maakt een ontzichtbare input om het gekozen docent id bewaardt te laten
+									echo "<input type='hidden' name='ID' value='".$ID."'>";
+
+									echo " kies een datum ";
+									echo "<select name='Datum' required>";
+									//maatk een querry om alledatums op te halen
+									$sqli_datums = "SELECT Datum FROM tijden_binnen_avond WHERE afgerond='0' AND Docent_ID='$ID' GROUP BY Datum";
+									$sqli_datums_uitkomst = mysqli_query($connect, $sqli_datums);
+
+									echo "<option value='0'></option>";
+
+									while($row = mysqli_fetch_array($sqli_datums_uitkomst)){
+										echo "<option value='" . $row["Datum"] . "'>" . $row["Datum"] . "</option>";
+									}
+									echo "</select>";
+
+									echo " kies een deel van de avond ";
+									echo "<select name='avond_deel' required>";
+									echo "<option value='begin'> begin van de avond</option>";
+									echo "<option value='eind'> eind van de avond</option>";
+									echo "</select>";
+									echo "&nbsp;&nbsp;";
+									echo "<input type='submit' class='btn btn-style' value='Bevestigen'>";
+									echo "</form>";
+
+									//controleert of de post gebeurt is
+									if(isset($_GET["Datum"]) && isset($_GET["avond_deel"]) && isset($ID)){
+										if($_GET["Datum"] != 0) {
+											$post_check = true;
+										}
+										else{
+											echo "<p class='text-center'><br>u moet een datum selecteren.</p>";
+										}
+									}
+								}
+								else{
+									//hier de docent selecteren.
+									echo "<div class='text-center'>";
+									echo "<p>";
+									echo "Kies de docent waarmee je een 10 minuten gesprek wil hebben";
+									echo "<p>";
 									echo "</div>";
+									//zet alle docenten neer als optie
+									$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0')";
+									$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
+									$i = -1;
+									echo "<table class='col-md-12'><tr>";
+									while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
+										$i++;
+										if($i<=2){
+											echo "<td>";
+											echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+											echo "</td>";
+										}
+										else{
+											echo "</tr><tr>";
+											echo "<td>";
+											echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+											echo "</td>";
+											$i = 0;
+										}
+									}
+									echo "</tr></table>";
+
+									//controleert of de leerling zich al heeft ingeschreven, anders krijg je dit voerzicht niet
+									$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";
+									if(mysqli_num_rows(mysqli_query($connect, $sqli_select_inschrijving)) >= 1){
+										$sqli_select_gegevens_inschrijving = "SELECT DISTINCT docenten.Voornaam, docenten.Achternaam, tijden_binnen_avond.Begin_tijd, tijden_binnen_avond.Datum FROM tijden_binnen_avond JOIN docenten ON docenten.Docent_ID = tijden_binnen_avond.Docent_ID WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND tijden_binnen_avond.Afgerond = 0";
+										$sqli_select_gegevens_inschrijving_uitkomst = mysqli_query($connect, $sqli_select_gegevens_inschrijving);
+										//var_dump($row);
+
+										//geeft ruimte tussen het overzicht van inschrijvingen en het formulier
+										echo "<div class='spacer col-md-12'></div>";
+
+										echo "<div class='col-md-12'>";
+										echo "<p class='text-center text-style'>hier zijn uw voorlopige inschrijvings gegevens.</p>";
+										while($row = mysqli_fetch_array($sqli_select_gegevens_inschrijving_uitkomst)){
+											echo "<br>";
+
+											//echo de datum die is ingeplant
+											echo "<div class='col-md-2 col-md-offset-2'>";
+											echo "de Datum: <br>";
+											echo $row["Datum"];
+											echo "</div>";
+											//echo de tijd waarom je verwacht wordt.
+											echo "<div class='col-md-2 col-md-offset-1'>";
+											echo "de Tijd: <br>";
+											echo $row["Begin_tijd"];
+											echo "</div>";
+											//echo de docent
+											echo "<div class='col-md-2 col-md-offset-1'>";
+											echo "de docent: <br>";
+											echo strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"];
+											echo "</div>";
+
+											echo "<br>";
+											echo "<br>";
+										}
+										echo "</div>";
+									}
 								}
 							}
-						}
-					?>		
-			</div>
-			
-			
-
+						?>
+				</div>
 				<?php
 					if(isset($post_check)){
 						if($post_check == true){
-							echo "<div class=' col-md-8 well'>";
+							echo "<div class=' col-md-12 well'>";
 								echo "<div class='col-md-12' >";
 									//echo de datum die is op gegeven in de post
 									echo "<div class='col-md-2 col-md-offset-1'>";
@@ -341,6 +329,7 @@
 					}
 				//var_dump($_SESSION["post_check"]);
 				?>
+			</div>
 
 		</div> <!-- /container -->
 		<div class="footer navbar-fixed-bottom">
