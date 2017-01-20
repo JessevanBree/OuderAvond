@@ -160,13 +160,20 @@
 									echo " kies een datum ";
 									echo "<select name='Datum' required>";
 									//maatk een querry om alledatums op te halen
-									$sqli_datums = "SELECT Datum FROM tijden_binnen_avond WHERE afgerond='0' AND Docent_ID='$ID' GROUP BY Datum";
+									$sqli_datums = "SELECT Datum FROM tijden_binnen_avond WHERE afgerond='0' AND Docent_ID='$ID' AND Tijd_Slot NOT IN (SELECT Tijd_Slot FROM tijden_binnen_avond WHERE Afgerond = 0 AND Leerling_ID != 0) GROUP BY Datum";
 									$sqli_datums_uitkomst = mysqli_query($connect, $sqli_datums);
 
-									echo "<option value='0'></option>";
+									//controleerd of de docent nog datums heeft die kunnen.
+									if(mysqli_num_rows($sqli_datums_uitkomst) > 0){
+										echo "<option value='0'></option>";
 
-									while($row = mysqli_fetch_array($sqli_datums_uitkomst)){
-										echo "<option value='" . $row["Datum"] . "'>" . $row["Datum"] . "</option>";
+										while($row = mysqli_fetch_array($sqli_datums_uitkomst)){
+											echo "<option value='" . $row["Datum"] . "'>" . $row["Datum"] . "</option>";
+										}
+
+									}
+									else{
+										echo "<option value='0'>Vol</option>";
 									}
 									echo "</select>";
 
