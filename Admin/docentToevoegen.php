@@ -64,7 +64,7 @@
             <input type="text" name="Afkorting" placeholder="Afkorting" class="form-control" required max=3>
 
             <label for="Email">Email:</label>
-            <input type="email" name="Email" placeholder="Email" class="form-control" required>
+            <input type="email" name="Email" placeholder="Email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Vul een geldig E-mail adres in.">
 
             <label for="Wachtwoord">Tijdelijk wachtwoord:</label>
             <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" value="" required>
