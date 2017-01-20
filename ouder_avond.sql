@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 19 jan 2017 om 16:20
+-- Genereertijd: 20 jan 2017 om 17:29
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `docenten` (
   `Voornaam` varchar(255) NOT NULL,
   `Achternaam` varchar(255) NOT NULL,
   `Afkorting` varchar(10) NOT NULL,
-  `E-mail` varchar(255) NOT NULL COMMENT 'het E-mail adres van de docent',
+  `Email` varchar(255) NOT NULL COMMENT 'het E-mail adres van de docent',
   `Wachtwoord` varchar(255) NOT NULL,
   `Salt` int(11) NOT NULL,
   `Eerste_inlog` tinyint(1) NOT NULL COMMENT '0 = eerste keer inloggen',
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `docenten` (
 -- Gegevens worden uitgevoerd voor tabel `docenten`
 --
 
-INSERT INTO `docenten` (`Docent_ID`, `Voornaam`, `Achternaam`, `Afkorting`, `E-mail`, `Wachtwoord`, `Salt`, `Eerste_inlog`) VALUES
+INSERT INTO `docenten` (`Docent_ID`, `Voornaam`, `Achternaam`, `Afkorting`, `Email`, `Wachtwoord`, `Salt`, `Eerste_inlog`) VALUES
 (1, 'niko', 'klaas', 'nkl', '', '9e4bd6c721648c1d1db9dedc12a1bf9605f25164bb75f61bfb897e24c30e5d1b4a37831632565420c7b80a28c71055a24aa0c45f3644efeac0049337de4b2117', 1384401393, 1),
 (2, 'sjaak', 'HANQ', 'asdf', '', 'f48d3d8f48e2acc6f3672a50bbf867e3e1a48c81e7f505dc2d5cce865b0e1fac6dd68d2c0285a36dc006c8e5f2355c5bdf670bc41221dcd52adf1cd5e991965f', 1307117401, 1),
 (4, 'test . 2', 'test . 2', 'test . 2', '', 'test . 2', 0, 1),
@@ -639,7 +639,7 @@ INSERT INTO `tijden_binnen_avond` (`Tijd_Slot`, `Datum`, `Docent_ID`, `Leerling_
 (16, '09-01-2017', 1, 0, '19:50:00', '20:00:00', 0),
 (17, '09-01-2017', 1, 0, '20:00:00', '20:10:00', 0),
 (18, '09-01-2017', 1, 0, '20:10:00', '20:20:00', 0),
-(19, '09-01-2017', 1, 244384, '20:20:00', '20:30:00', 0),
+(19, '09-01-2017', 1, 2443841, '20:20:00', '20:30:00', 0),
 (20, '09-01-2017', 1, 243539, '20:30:00', '20:40:00', 0),
 (21, '09-01-2017', 1, 0, '20:40:00', '20:50:00', 0),
 (22, '09-01-2017', 1, 0, '20:50:00', '21:00:00', 0),
@@ -674,7 +674,7 @@ INSERT INTO `tijden_binnen_avond` (`Tijd_Slot`, `Datum`, `Docent_ID`, `Leerling_
 (51, '11-01-2017', 1, 0, '18:00:00', '18:10:00', 0),
 (52, '11-01-2017', 1, 0, '18:10:00', '18:20:00', 0),
 (53, '11-01-2017', 1, 0, '18:20:00', '18:30:00', 0),
-(54, '11-01-2017', 1, 244384, '18:30:00', '18:40:00', 0),
+(54, '11-01-2017', 1, 1, '18:30:00', '18:40:00', 0),
 (55, '11-01-2017', 1, 2, '18:40:00', '18:50:00', 0),
 (56, '11-01-2017', 1, 0, '18:50:00', '19:00:00', 0),
 (57, '11-01-2017', 1, 0, '19:20:00', '19:30:00', 0),
@@ -753,7 +753,7 @@ INSERT INTO `tijden_binnen_avond` (`Tijd_Slot`, `Datum`, `Docent_ID`, `Leerling_
 (130, '11-01-2017', 2, 0, '20:30:00', '20:40:00', 0),
 (131, '11-01-2017', 2, 0, '20:40:00', '20:50:00', 0),
 (132, '11-01-2017', 2, 0, '20:50:00', '21:00:00', 0),
-(133, '09-01-2017', 4, 244384, '17:00:00', '17:10:00', 0),
+(133, '09-01-2017', 4, 2443841, '17:00:00', '17:10:00', 0),
 (134, '09-01-2017', 4, 0, '17:10:00', '17:20:00', 0),
 (135, '09-01-2017', 4, 0, '17:20:00', '17:30:00', 0),
 (136, '09-01-2017', 4, 0, '17:30:00', '17:40:00', 0),
