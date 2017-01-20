@@ -46,3 +46,23 @@
 .spacer{
 	height: 10vh;
 }
+
+.Beschikbaarheid {
+	height: 20px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	background-color: #f5f5f5;
+	border-radius: 4px;
+}
+
+.Beschikbaarheid-bar {
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	line-height: 20px;
+	color: #00694b;
+	text-align: center;
+	background-color: #00694b;
+	transition: width .6s ease;
+}

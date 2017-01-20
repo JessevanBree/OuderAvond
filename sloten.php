@@ -2,6 +2,7 @@
 //haalt de nodige bestanden op
 require_once("database.php");
 require_once("inschrijven.function.php");
+setlocale(LC_ALL, 'nl_NL');
 ?>
 <div class="col-md-3" style='overflow:auto; max-height:85vh'><!--geeft het overzicht (tabel) van de sloten die nog beschikbaar zijn.-->
 
@@ -26,24 +27,26 @@ require_once("inschrijven.function.php");
                         $Proggresbar_Uitvoer = mysqli_query($connect, $Proggresbar);
                         $rowcount = mysqli_num_rows($Proggresbar_Uitvoer);
 
-                        //vraagt de datum op en later het totaal aantal sloten voor die dag.
-                        $Proggresbar2 = "SELECT Afgerond FROM tijden_binnen_avond WHERE Afgerond=1 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."'";
-                        $Proggresbar2_Uitvoer = mysqli_query($connect, $Proggresbar);
+                        //vraagt het aantal niet gevulde plekken op.
+                        $Proggresbar2 = "SELECT Leerling_ID FROM tijden_binnen_avond WHERE Afgerond=0 AND Docent_ID='$ID' AND Datum='".$row["Datum"]."' AND Leerling_ID=0";
+                        $Proggresbar2_Uitvoer = mysqli_query($connect, $Proggresbar2);
                         $rowcount2 = mysqli_num_rows($Proggresbar2_Uitvoer);
-                        echo $rowcount;
-                        echo $rowcount2;
+                        //echo $rowcount;
+                        //echo $rowcount2;
                             $row1 = mysqli_fetch_array($Proggresbar_Uitvoer);
                                 echo "<tr class='success'>";
-                                    echo "<td>";
-                                        echo date("l", strtotime($row1["Datum"]));
+                                    echo "<td >";
+                                        echo date("D", strtotime($row1["Datum"]));
                                     echo "</td>";
                                     echo "<td>";
                                         echo $row1["Datum"];
                                     echo "</td>";
                                     echo "<td>";
                                         ?>
-                                            <div style="background-color:#00694b;color:#ffffff; width:<?PHP echo ($rowcount2/$rowcount)*100; ?>%">
-                                                <?PHP echo floor(($rowcount2/$rowcount)*100); ?>%
+                                            <div class="Beschikbaarheid">
+                                                <div class="Beschikbaarheid-bar" role="progressbar" style="background-color:#00694b;color:#000000; width:<?PHP echo ($rowcount2/$rowcount)*100; ?>%">
+                                                    <?PHP echo round(($rowcount2/$rowcount)*100); ?>%
+                                                </div>
                                             </div>
                                         <?php
                                     echo "</td>";
