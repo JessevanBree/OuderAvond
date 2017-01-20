@@ -63,6 +63,9 @@
             <label for="Afkorting">Afkorting:</label>
             <input type="text" name="Afkorting" placeholder="Afkorting" class="form-control" required max=3>
 
+            <label for="Email">Email:</label>
+            <input type="email" name="Email" placeholder="Email" class="form-control" required>
+
             <label for="Wachtwoord">Tijdelijk wachtwoord:</label>
             <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" value="" required>
             
@@ -82,9 +85,9 @@
                 $row = mysqli_fetch_array($Docent_Check_Uitvoer);
 
                 if($row["Afkorting"] != $_POST['Afkorting']) {
-                    if (isset($_POST['Voornaam']) && ($_POST['Achternaam']) && ($_POST['Afkorting']) && ($_POST['Wachtwoord'])) {
-                        $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Wachtwoord, Salt, Eerste_inlog) 
-                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Wachtwoord'] . "', '0', '0');";
+                    if (isset($_POST['Voornaam']) && ($_POST['Achternaam']) && ($_POST['Afkorting']) && ($_POST['Email']) && ($_POST['Wachtwoord'])) {
+                        $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Email , Wachtwoord, Salt, Eerste_inlog) 
+                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Email'] . "', '" . $_POST['Wachtwoord'] . "', '0', '0');";
                         if (mysqli_query($connect, $ToevoegenQ)) {
                             echo "<div class='alert alert-success col-md-offset-1 col-md-3 text-center' role='alert'>Gegevens ingevoegd</div>";
                         }
@@ -98,12 +101,11 @@
                 }
             }
         ?>
-        </br>
-        
-
+        <br>
+        <!-- Footer -->
         <div class="footer navbar-fixed-bottom">
             Ouderavond 2016.
-            </br>
+            <br>
             &copy; Koen van Kralingen, Paul Backs, Mike de Decker en Jesse van Bree.
         </div>
     </body>
