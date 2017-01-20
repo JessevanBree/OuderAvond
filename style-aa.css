@@ -62,7 +62,12 @@
 	font-size: 12px;
 	line-height: 20px;
 	color: #00694b;
-	text-align: center;
+    text-align: center;
 	background-color: #00694b;
 	transition: width .6s ease;
+}
+
+.Beschikbaarheid-procent{
+    position: absolute;
+    left: 72.5vh;
 }
