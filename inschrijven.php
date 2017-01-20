@@ -204,7 +204,7 @@
 									echo "<p>";
 									echo "</div>";
 									//zet alle docenten neer als optie
-									$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0')";
+									$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0') AND Docent_ID IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Afgerond='0')";
 									$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
 									$i = -1;
 									echo "<table class='col-md-12'><tr>";
