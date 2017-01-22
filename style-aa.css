@@ -71,3 +71,20 @@
     position: absolute;
     left: 72.5vh;
 }
+
+.progress {
+	position: relative;
+	background-color: #f55235;
+}
+
+.progress-bar{
+	color: #00694b;
+	background-color: #00694b;
+}
+
+.progress span {
+	position: absolute;
+	display: block;
+	width: 100%;
+	color: black;
+}

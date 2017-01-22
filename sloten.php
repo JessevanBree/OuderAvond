@@ -43,9 +43,9 @@ setlocale(LC_ALL, 'nl_NL');
                                     echo "</td>";
                                     echo "<td>";
                                         ?>
-                                            <div class="Beschikbaarheid">
-                                                <div class="Beschikbaarheid-bar text-center" role="progressbar" style="; background-color:#00694b;color:#000000; width:<?PHP echo ($rowcount2/$rowcount)*100; ?>%">
-                                                    <p class="Beschikbaarheid-procent"><?PHP echo round(($rowcount2/$rowcount)*100); ?>%</p>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?PHP echo ($rowcount2/$rowcount)*100; ?>%">
+                                                    <span><?PHP echo round(($rowcount2/$rowcount)*100); ?>%</span>
                                                 </div>
                                             </div>
                                         <?php
