@@ -88,3 +88,7 @@
 	width: 100%;
 	color: black;
 }
+
+.no_padding{
+    padding: 0;
+}
