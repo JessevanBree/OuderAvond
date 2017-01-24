@@ -51,7 +51,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="../Inlog/loguit.php"><span class="glyphicon glyphicon-log-out"></span> Uitloggen</a></li><!--Uitloggen knop -->					
-				</ul>;					
+				</ul>
 			</div>			
 		</nav>
 		<div class="hoofd col-md-8 col-md-offset-2">
