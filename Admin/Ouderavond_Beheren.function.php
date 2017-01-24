@@ -33,8 +33,6 @@
 		date_default_timezone_set('europe/amsterdam');
 		$datum = date("d-m-Y", strtotime($datum));
 
-		//var_dump(count($Docenten_Array));
-
 		//maakt voor iedere docent de juiste hoeeveelheid sloten aan.
 		for($X = 0; $X < count($Docenten_Array); $X++){
 
@@ -98,7 +96,6 @@
 				}
 				//verhoogt de datum met 1 dag
 				$datum_goed = date("d-m-Y", strtotime($datum_goed . '+1 day'));
-
 			}
 
 		}

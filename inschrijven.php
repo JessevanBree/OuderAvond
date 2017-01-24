@@ -326,9 +326,6 @@
 											unset($_SESSION["docent"]);
 											//unset($post_check);
 										}
-										else{
-											echo "er is een onbekende fout opgetreden, probeer het op nieuw of neem contact op met de systeem beheerder. ";
-										}
 									}
 								}
 							echo "</div>";
