@@ -173,7 +173,7 @@
 
 									}
 									else{
-										echo "<option value='0'>Vol</option>";
+										echo "<option value='vol'>Vol</option>";
 									}
 									echo "</select>";
 
@@ -188,8 +188,11 @@
 
 									//controleert of de post gebeurt is
 									if(isset($_GET["Datum"]) && isset($_GET["avond_deel"]) && isset($ID)){
-										if($_GET["Datum"] != 0) {
+										if($_GET["Datum"] != 0 && $_GET["Datum"] != 'vol') {
 											$post_check = true;
+										}
+										elseif($_GET["Datum"] == 'vol'){
+											echo "<p class='text-center'><br>de docent zit vol, ga naar je mentor om een afspraak te maken.</p>";
 										}
 										else{
 											echo "<p class='text-center'><br>u moet een datum selecteren.</p>";
