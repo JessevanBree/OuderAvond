@@ -55,19 +55,19 @@
             <h3>Docent Toevoegen</h3>
             <br>
             <label for="Naam Docent">Voornaam:</label>
-            <input type="text" name="Voornaam" placeholder="Naam Docent" class="form-control" required>
+            <input type="text" name="Voornaam" placeholder="Naam Docent" class="form-control" required value="<?php echo isset($_POST['Voornaam']) ? $_POST['Voornaam'] : '' ?>">
 
             <label for="Achternaam">Achternaam:</label>
-            <input type="text" name="Achternaam" placeholder="Achternaam" class="form-control" min="0" max="99" value="" required>
+            <input type="text" name="Achternaam" placeholder="Achternaam" class="form-control" min="0" max="99" required value="<?php echo isset($_POST['Achternaam']) ? $_POST['Achternaam'] : '' ?>">
 
             <label for="Afkorting">Afkorting:</label>
-            <input type="text" name="Afkorting" placeholder="Afkorting" class="form-control" required max=3>
+            <input type="text" name="Afkorting" placeholder="Afkorting" class="form-control" required max=3 value="<?php echo isset($_POST['Achternaam']) ? $_POST['Achternaam'] : '' ?>">
 
             <label for="Email">Email:</label>
-            <input type="email" name="Email" placeholder="Email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Vul een geldig E-mail adres in.">
+            <input type="email" name="Email" placeholder="Email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Vul een geldig E-mail adres in." value="<?php echo isset($_POST['Achternaam']) ? $_POST['Achternaam'] : '' ?>">
 
             <label for="Wachtwoord">Tijdelijk wachtwoord:</label>
-            <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" value="" required>
+            <input type="text" name="Wachtwoord" placeholder="Wachtwoord" class="form-control" min="0" max="99" required value="<?php echo isset($_POST['Achternaam']) ? $_POST['Achternaam'] : '' ?>">
             
 
             <br>
@@ -86,8 +86,17 @@
 
                 if($row["Afkorting"] != $_POST['Afkorting']) {
                     if (isset($_POST['Voornaam']) && ($_POST['Achternaam']) && ($_POST['Afkorting']) && ($_POST['Email']) && ($_POST['Wachtwoord'])) {
+                        //encypt het wachtwoord. (haalt eerst het bestand op wat daarvoor gebruikt wordt.
+                        require_once("../Inlog/encryptie.php");
+                        //maakt een salt
+                        $Salt = gen_salt();
+                        //combineert het wachtwoordt met de salt
+                        $wachtwoord = $_POST["Wachtwoord"] . $Salt;
+                        //encypt het wachtwoord
+                        $wachtwoord = encryptie($wachtwoord);
+
                         $ToevoegenQ = "INSERT INTO docenten (Docent_ID, Voornaam, Achternaam, Afkorting, Email , Wachtwoord, Salt, Eerste_inlog) 
-                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Email'] . "', '" . $_POST['Wachtwoord'] . "', '0', '0');";
+                                       VALUES (DEFAULT , '" . $_POST['Voornaam'] . "', '" . $_POST['Achternaam'] . "', '" . $_POST['Afkorting'] . "', '" . $_POST['Email'] . "', '$wachtwoord', '$Salt', '0');";
                         if (mysqli_query($connect, $ToevoegenQ)) {
                             echo "<div class='alert alert-success col-md-offset-1 col-md-3 text-center' role='alert'>Gegevens ingevoegd</div>";
                         }
@@ -97,7 +106,7 @@
                     }
                 }
                 else {
-                    echo "<div class='alert alert-danger col-md-offset-1 col-md-4 text-center' role='alert'>Een docent met deze gegevens is al ingevoerd in het systeem </div>";
+                    echo "<div class='alert alert-danger col-md-offset-1 col-md-4 text-center' role='alert'>Een docent met deze afkorting is al ingevoerd in het systeem </div>";
                 }
             }
         ?>
