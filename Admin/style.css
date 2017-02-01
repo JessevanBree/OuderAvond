@@ -271,3 +271,7 @@ h1{
     color: white;
     background-color: SteelBlue;
 }
+
+.margin_bottom_15{
+    margin-bottom: 15px;
+}

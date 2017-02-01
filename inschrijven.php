@@ -209,24 +209,32 @@
 									//zet alle docenten neer als optie
 									$sqli_docenten = "SELECT DISTINCT Docent_ID, Voornaam, Achternaam FROM docenten WHERE Docent_ID NOT IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond='0') AND Docent_ID IN (SELECT DISTINCT Docent_ID FROM tijden_binnen_avond WHERE Afgerond='0')";
 									$sqli_docenten_uitkomst = mysqli_query($connect, $sqli_docenten);
-									$i = -1;
-									echo "<table class='col-md-12'><tr>";
-									while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
-										$i++;
-										if($i<=2){
-											echo "<td>";
-											echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
-											echo "</td>";
+									//controleerd of er wel een ouderavond is
+									if(mysqli_num_rows($sqli_docenten_uitkomst) > 0){
+										$i = -1;
+										echo "<table class='col-md-12'><tr>";
+										while($row = mysqli_fetch_array($sqli_docenten_uitkomst)){
+											$i++;
+											if($i<=2){
+												echo "<td>";
+												echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+												echo "</td>";
+											}
+											else{
+												echo "</tr><tr>";
+												echo "<td>";
+												echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
+												echo "</td>";
+												$i = 0;
+											}
 										}
-										else{
-											echo "</tr><tr>";
-											echo "<td>";
-											echo "<a href='inschrijven.php?ID=". $row["Docent_ID"] . "'>" . strtoupper(substr($row["Voornaam"], 0, 1)) . ". " . $row["Achternaam"]."<br>";
-											echo "</td>";
-											$i = 0;
-										}
+										echo "</tr></table>";
 									}
-									echo "</tr></table>";
+									else{
+										//er is geen ouderavond.
+										echo"<p class='text-center'>Er is geen ouderavond gepland, of je hebt ja al meerdere keren ingeschreven</p>";
+									}
+
 
 									//controleert of de leerling zich al heeft ingeschreven, anders krijg je dit voerzicht niet
 									$sqli_select_inschrijving = "SELECT DISTINCT Tijd_Slot FROM tijden_binnen_avond WHERE Leerling_ID = '".$_SESSION["Inlog_ID"]."' AND Afgerond = 0 GROUP BY Docent_ID";

@@ -130,14 +130,22 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-md-offset-3">
-					<button  type="submit" name="submit" class="btn btn-style btn-block"><span class="glyphicon glyphicon-ok"></span>  Bevestigen</button>
+					<button  type="submit" name="submit" class="btn btn-style btn-block margin_bottom_15"><span class="glyphicon glyphicon-ok"></span>  Bevestigen</button>
 				</div>
 					</form>
 
 				<?php
 					if(isset($_POST["Datum"]) && isset($_POST["Aantal_Dagen"]) && isset($_POST["Begin_Tijd"]) && isset($_POST["Eind_Tijd"]) && isset($_POST["Docenten_Array"])){
 						if(Ouderavond_beginnen($_POST["Datum"], $_POST["Aantal_Dagen"], $_POST["Begin_Tijd"], $_POST["Eind_Tijd"], $_POST["Docenten_Array"]) == true){
-							echo "de nieuwe ouderavond is succesvol gepland";
+							?>
+							<br><br>
+							<div class="col-md-10 col-md-offset-1">
+								<div class="alert alert-info alert-dismissible " role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									de nieuwe ouderavond is succesvol gepland
+								</div>
+							</div>
+							<?php
 						}
 						else{
 							echo "er is iets vout gegaan, probeer het op nieuw.";

@@ -96,6 +96,9 @@
 				}
 				//verhoogt de datum met 1 dag
 				$datum_goed = date("d-m-Y", strtotime($datum_goed . '+1 day'));
+
+				//omtezorgen dat het script zeer grote bestanden kan importeren.
+				set_time_limit(0);
 			}
 
 		}
