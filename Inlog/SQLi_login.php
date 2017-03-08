@@ -46,7 +46,7 @@
 						//zet je inlognaam in een variablen.
 						$_SESSION["Inlog_ID"] = $username;
 						//je wordt door gestuurd naar de hoofd pagina.
-						header("location: ../Index.php");
+						header("location: ../index.php");
 					}
 					else{
 						//de inloggegevens zijn niet correct
@@ -79,7 +79,7 @@
 						$_SESSION["Admin"] = true;
 						$_SESSION["Inlog_ID"] = $username;
 						//je wordt door gestuurd naar de hoofd pagina.
-						header("location: ../Index.php");
+						header("location: ../index.php");
 					}
 					else{
 						//de inloggegevens zijn niet correct

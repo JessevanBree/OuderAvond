@@ -65,7 +65,7 @@
                 </div>
             </a>
 
-            <a href="docentToevoegen.php" id="Link" onmouseover="document.getElementById('myImage').src='../afbeeldingen/docent-add.png'" onmouseout="document.getElementById('myImage').src='../afbeeldingen/docent-add-hover.png'">
+            <a href="docentToevoegen.php" id="Link" onmouseover="document.getElementById('myImage').src='../Afbeeldingen/docent-add.png'" onmouseout="document.getElementById('myImage').src='../Afbeeldingen/docent-add-hover.png'">
                 <div class="col-md-2 col-sm-3 col-lg-1 col-xs-6 border margin text-center" >
                     <img id="myImage" src="../Afbeeldingen/docent-add-hover.png" alt="Image not found" class="DocToevIMG"><br>
                     Docent <br> toevoegen

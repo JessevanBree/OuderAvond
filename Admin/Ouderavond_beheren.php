@@ -32,7 +32,7 @@
 		<link rel="icon" href="../favicon.ico" type="image/x-icon">
 
 		<!-- Bootstrap core CSS -->
-		<link href="../Bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
 		<link href="style.css" rel="stylesheet">
